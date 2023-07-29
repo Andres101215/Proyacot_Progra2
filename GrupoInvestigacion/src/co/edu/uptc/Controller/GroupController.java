@@ -155,4 +155,34 @@ public class GroupController {
         
     }
 
+    public String modificarObjetivo(String objetivos, int numeroObjetivo, String nuevoObjetivo) {
+        String[] lineas = objetivos.split("\n");
+        StringBuilder resultado = new StringBuilder();
+
+        for (String linea : lineas) {
+            int puntoIndex = linea.indexOf(".");
+            if (puntoIndex != -1) {
+                int numero = Integer.parseInt(linea.substring(0, puntoIndex).trim());
+                if (numero == numeroObjetivo) {
+                    linea = numero + ". " + nuevoObjetivo;
+                }
+            }
+            resultado.append(linea).append("\n");
+        }
+
+        return resultado.toString();
+    }
+
+ 
+   
+
+    
+
 }
+
+
+
+
+
+
+

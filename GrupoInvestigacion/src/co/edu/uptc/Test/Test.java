@@ -9,8 +9,8 @@ public class Test {
         GroupController gc = new GroupController();
         Scanner sc = new Scanner(System.in);
         String faculty = "", name = "", initial = "", email = "", goal = "", project = "";
-        String nameProject="", descriptionProject="";
-        int op = 0, num = 0, Id = 0, state=0, m=0, idProject=0;
+        String nameProject="", descriptionProject="", aux="";
+        int op = 0, num = 0, Id = 0, state=0, m=0, idProject=0, cont = 0; 
         boolean stateProject=false;
         
         while (op != 5) {
@@ -22,6 +22,7 @@ public class Test {
                 System.out.println(gc.showInformation());
                 break;   
                 case 2:
+                int op6 = 0;
                     System.out.println("Input Id of the Investigation group");
                     Id = sc.nextInt();
                     System.out.println("Input faculty of the Investigation group");
@@ -35,9 +36,29 @@ public class Test {
                     email = sc.nextLine();
                     sc.nextLine();
                     System.out.println("Input objective of the Investigation group");
-                    goal = sc.nextLine();
-                    
-                    gc.addGroup(gc.createGroup(Id, faculty, name, initial, email, goal));
+                    cont++;
+                    aux = cont + "." + sc.nextLine() + "\n";
+                    while (op6 != 2) {
+                        System.out.println("Do you want to add another objective?");
+                        System.out.println("1.Yes\n2.No");
+                        op6 = sc.nextInt();
+                        switch (op6) {
+                            case 1:
+                                System.out.println("Input objective of the Investigation group");
+                                sc.nextLine();
+                                cont++;
+                                aux += cont + "." + sc.nextLine() + "\n";
+                                break;
+                            case 2:
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    }
+                    gc.addGroup(gc.createGroup(Id, faculty, name, initial, email, aux));
+
                     break;
                 case 3:
                     int op1 = 0, op2 = 0, op3 = 0, op4 = 0;
@@ -115,6 +136,60 @@ public class Test {
                                                 System.out.println("No existe el grupo");
                                             }
                                             break;
+                                            case 5:
+                                        int obj = 0;
+                                        int opObject = 0;
+                                        String objective = "";
+                                        if (search != -1) {
+                                            System.out.println(gc.getListaGrupos().get(search).getGoal());
+                                            while (opObject != 4) {
+                                                System.out.println("Elija alguna de las siguientes opciones: ");
+                                                System.out.println("1.Agregar objetivo\n2.Modificar objetivo\n4.salir");
+                                                opObject = sc.nextInt();
+                                                switch (opObject) {
+                                                    case 1:
+                                                        System.out.println("Input objective of the Investigation group");
+                                                        cont++;
+                                                        sc.nextLine();
+                                                        gc.getListaGrupos().get(search)
+                                                                .setGoal(aux += cont + ")" + sc.nextLine() + "\n");
+            
+                                                        break;
+                                                    case 2:
+            
+                                         
+                                                        System.out.println("Objetivos actuales del grupo:");
+                                                        System.out.println(gc.getListaGrupos().get(search).getGoal());
+            
+                                                        // Solicitar al usuario el número del objetivo que desea modificar
+                                                        System.out.println("Ingrese el número del objetivo que desea modificar:");
+                                                        int numeroObjetivo = sc.nextInt();
+                                                        sc.nextLine(); // Consumir el salto de línea después de leer el número
+            
+                                                        // Solicitar al usuario el nuevo texto del objetivo
+                                                        System.out.println("Ingrese el nuevo texto del objetivo:");
+                                                        String nuevoTexto = sc.nextLine();
+            
+                                                        // Modificar el objetivo con el nuevo texto
+                                                        String objetivosActuales = gc.getListaGrupos().get(search).getGoal();
+                                                        String objetivosModificados = gc.modificarObjetivo(objetivosActuales,
+                                                                numeroObjetivo, nuevoTexto);
+            
+                                                        // Actualizar la lista de objetivos del grupo con los objetivos modificados
+                                                        gc.getListaGrupos().get(search).setGoal(objetivosModificados);
+            
+                                                        break;
+            
+                                                    default:
+                                                        break;
+                                                }
+            
+                                            }
+            
+                                        } else {
+                                            System.out.println("No existe el grupo");
+                                        }
+                                        break;
                                             
                                         default:
                                         System.out.println("invalid option");
@@ -185,9 +260,7 @@ public class Test {
                                         case 4:
                                             System.out.println(gc.showInformationProjects());    
                                         break;
-                                        case 5:
-                                            
-                                        break;
+                                        
                                         default:
                                         break;
                                     } 
