@@ -9,13 +9,13 @@ public class Grupo {
     private String Initial;
     private String email;
     private String goal;
-    private ArrayList<Project1> projects ;
+    private ArrayList<Project> projects ;
 
     public Grupo() {
     }
     
     public Grupo(int id, String faculty, String name, String initial, String email, String goal,
-            ArrayList<Project1> projects) {
+        ArrayList<Project> projects) {
         Id = id;
         Faculty = faculty;
         Name = name;
@@ -73,11 +73,11 @@ public class Grupo {
         Id = id;
     }
 
-    public ArrayList<Project1> getProjects() {
+    public ArrayList<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(ArrayList<Project1> projects) {
+    public void setProjects(ArrayList<Project> projects) {
         this.projects = projects;
     }
 

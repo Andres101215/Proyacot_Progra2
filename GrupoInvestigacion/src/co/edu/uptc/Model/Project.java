@@ -1,6 +1,6 @@
 package co.edu.uptc.Model;
 
-public class Project1 {
+public class Project {
     private int idProject;
     private String name;
     private boolean state;
@@ -32,10 +32,10 @@ public class Project1 {
         this.idProject = idProject;
     }
     
-    public Project1() {
+    public Project() {
     }
 
-    public Project1(int idProject, String name, boolean state, String description) {
+    public Project(int idProject, String name, boolean state, String description) {
         this.idProject = idProject;
         this.name = name;
         this.state = state;

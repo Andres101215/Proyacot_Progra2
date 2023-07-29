@@ -3,32 +3,24 @@ package co.edu.uptc.Controller;
 import java.util.ArrayList;
 
 import co.edu.uptc.Model.Grupo;
-import co.edu.uptc.Model.Project1;
+import co.edu.uptc.Model.Project;
 
 public class GroupController {
     private Grupo grupo;
-    private Project1 project;
+    private Project project;
     private ArrayList<Grupo> listaGrupos = new ArrayList<>();
     private boolean isLoaded = false;
 
-    public ArrayList<Grupo> getListaGrupos() {
-        return listaGrupos;
-    }
-
-    public void setListaGrupos(ArrayList<Grupo> listaGrupos) {
-        this.listaGrupos = listaGrupos;
-    }
-
-    
-    public void addProject(int IdGroup,Project1 p){
+    //projects
+    public void addProject(int IdGroup, Project p){
         for (int i = 0; i < listaGrupos.size(); i++) {
             if (listaGrupos.get(i).getId()==IdGroup) {
-                    listaGrupos.get(i).getProjects().add(p);
+                listaGrupos.get(i).getProjects().add(p);
             }
         }
     }
 
-    public void removeProject(int IdGroup, Project1 p){
+    public void removeProject(int IdGroup, Project p){
         for (int i = 0; i < listaGrupos.size(); i++) {
             if (listaGrupos.get(i).getId()==IdGroup) {
                     listaGrupos.get(i-1).getProjects().remove(p);
@@ -36,9 +28,58 @@ public class GroupController {
         }
     }
 
-    public Project1 createProject(int idProject, String name, boolean state, String description) {
-       project=new Project1(idProject ,name ,state ,description);
+    public Project createProject(int idProject, String name, boolean state, String description) {
+       project=new Project(idProject ,name ,state ,description);
        return this.project;
+    }
+
+    //metodo que retorna la posicion de la lista de proyectos
+    public int searchProject(int idProject) {
+        for(int i = 0; i < grupo.getProjects().size(); i++){
+            if(grupo.getProjects().get(i).getIdProject() == idProject){
+                return i;
+            }
+        }       
+        return -1;
+    }
+    
+    public boolean modifyProject(int id, int option, String newIn, Boolean state) {
+       
+        int aux = searchProject(id);
+       
+        switch (option) {
+            case 1:
+                grupo.getProjects().get(aux).setName( newIn );;
+            return true;
+            case 2:
+                grupo.getProjects().get(aux).setDescription(newIn);;
+            return true;
+            case 3:
+                grupo.getProjects().get(aux).setState(state);
+            default:
+            break;
+        }
+        return false;
+    }
+    
+    public String showInformationProjects() {
+        String information = "";
+        for (int i = 0; i <  grupo.getProjects().size(); i++) {
+            information += "Project N°" + (i + 1) + " \n " + grupo.getProjects().get(i).toString() + "\n";
+        }
+        return information;
+    }
+
+    
+
+
+    // Groups
+    public ArrayList<Grupo> getListaGrupos() {
+        return listaGrupos;
+    }
+
+    public void setListaGrupos(ArrayList<Grupo> listaGrupos) {
+        this.listaGrupos = listaGrupos;
     }
 
     public void loadGroups() {
@@ -57,7 +98,7 @@ public class GroupController {
     }
 
     public Grupo createGroup(int id, String faculty, String name, String initial, String email, String goal) {
-         ArrayList<Project1> listprojects = new ArrayList<>(); 
+         ArrayList<Project> listprojects = new ArrayList<>(); 
         grupo = new Grupo(id, faculty, name, initial, email, goal, listprojects);
         return this.grupo;
     }
@@ -66,13 +107,16 @@ public class GroupController {
         listaGrupos.add(g);
     }
 
-       public void deleteGroup(int IdGroup){
+    public boolean deleteGroup(int IdGroup){
         for (int i = 0; i < listaGrupos.size(); i++) {
             if (listaGrupos.get(i).getId()==IdGroup) {
                     listaGrupos.remove(i);
+                    return true;
             }
         }
+        return false;
     }
+
 
     public int searchGroup(int id) {
         for (int i = 0; i < listaGrupos.size(); i++) {
@@ -83,48 +127,32 @@ public class GroupController {
         return -1;
     }
 
-    public String modifyGroup(int num, int mofic, String inf) {
-        switch (mofic) {
+    public String modifyGroup(int id, int option, String inf) {
+        
+        int aux = searchGroup(id);
+        
+        if(aux!=-1){
+            switch (option) {
             case 1:
-            for (int i = 0; i < listaGrupos.size(); i++) {
-            if (listaGrupos.get(i).getId()==num) {
-                    listaGrupos.get(i).setFaculty(inf);
-                return inf;
-            }
-        }               
-            case 2:
-            for (int i = 0; i < listaGrupos.size(); i++) {
-            if (listaGrupos.get(i).getId()==num) {
-                   listaGrupos.get(i).setName(inf);
-                return inf;
-            }
-        }
-                
-            case 3:
-            for (int i = 0; i < listaGrupos.size(); i++) {
-            if (listaGrupos.get(i).getId()==num) {
-                  listaGrupos.get(i).setInitial(inf); 
-                   return inf; 
-            }
-        }
-            case 4:
-            for (int i = 0; i < listaGrupos.size(); i++) {
-            if (listaGrupos.get(i).getId()==num) {
-                    listaGrupos.get(i).setEmail(inf);
+            listaGrupos.get(aux).setFaculty(inf);
             return inf;
-            }
-        }
-            
+            case 2:
+                listaGrupos.get(aux).setName(inf);
+            return inf;
+            case 3:
+                listaGrupos.get(aux).setInitial(inf);; 
+            return inf; 
+            case 4:
+                listaGrupos.get(aux).setEmail(inf);
+            return inf;  
             default:
                 break;
+            }
 
         }
-        return null;
+     
+        return inf;
+        
     }
-
- 
-   
-
-    
 
 }
