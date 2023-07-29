@@ -66,8 +66,12 @@ public class GroupController {
         listaGrupos.add(g);
     }
 
-    public void deleteGroup(int e) {
-        listaGrupos.remove(e - 1);
+       public void deleteGroup(int IdGroup){
+        for (int i = 0; i < listaGrupos.size(); i++) {
+            if (listaGrupos.get(i).getId()==IdGroup) {
+                    listaGrupos.remove(i);
+            }
+        }
     }
 
     public int searchGroup(int id) {
@@ -82,23 +86,45 @@ public class GroupController {
     public String modifyGroup(int num, int mofic, String inf) {
         switch (mofic) {
             case 1:
-                listaGrupos.get(num).setFaculty(inf);
+            for (int i = 0; i < listaGrupos.size(); i++) {
+            if (listaGrupos.get(i).getId()==num) {
+                    listaGrupos.get(i).setFaculty(inf);
                 return inf;
+            }
+        }               
             case 2:
-                listaGrupos.get(num).setName(inf);
+            for (int i = 0; i < listaGrupos.size(); i++) {
+            if (listaGrupos.get(i).getId()==num) {
+                   listaGrupos.get(i).setName(inf);
                 return inf;
+            }
+        }
+                
             case 3:
-            listaGrupos.get(num).setInitial(inf);; 
-            return inf; 
+            for (int i = 0; i < listaGrupos.size(); i++) {
+            if (listaGrupos.get(i).getId()==num) {
+                  listaGrupos.get(i).setInitial(inf); 
+                   return inf; 
+            }
+        }
             case 4:
-            listaGrupos.get(num).setEmail(inf);
-            return inf;  
+            for (int i = 0; i < listaGrupos.size(); i++) {
+            if (listaGrupos.get(i).getId()==num) {
+                    listaGrupos.get(i).setEmail(inf);
+            return inf;
+            }
+        }
+            
             default:
-
                 break;
 
         }
         return null;
     }
+
+ 
+   
+
+    
 
 }
