@@ -74,6 +74,24 @@ public class GroupController {
         return information;
     }
 
+    public boolean validationId(int inputId ){
+        for (int i = 0; i < groupList.size(); i++) {  
+            //por grupo
+            if( groupList.get(i).getId() == inputId){
+                return true;
+            }
+            //por proyecto
+            for (int j = 0; j < groupList.get(i).getProjects().size(); j++) {
+                if ( groupList.get(i).getProjects().get(j).getIdProject() == inputId){
+                    return true;
+                }
+            }
+
+         }
+         return false;
+    }
+
+
     // Groups
     public ArrayList<Group> getGroupList() {
         return groupList;
