@@ -20,12 +20,15 @@ public class GroupController {
         }
     }
 
-    public void removeProject(int IdGroup, Project p){
-        for (int i = 0; i < listaGrupos.size(); i++) {
-            if (listaGrupos.get(i).getId()==IdGroup) {
-                    listaGrupos.get(i-1).getProjects().remove(p);
-            }
-        }
+    public boolean removeProject(int idGroup, int idProject){ 
+        int aux = searchGroup(idGroup); 
+        int aux2 = searchProject(idProject);
+       
+        if(aux!= -1 && aux2!= -1){
+            getListaGrupos().get(aux).getProjects().remove(aux2);
+            return true;
+        }   
+        return false;
     }
 
     public Project createProject(int idProject, String name, boolean state, String description) {
@@ -44,9 +47,7 @@ public class GroupController {
     }
     
     public boolean modifyProject(int id, int option, String newIn, Boolean state) {
-       
         int aux = searchProject(id);
-       
         switch (option) {
             case 1:
                 grupo.getProjects().get(aux).setName( newIn );;
@@ -65,13 +66,11 @@ public class GroupController {
     public String showInformationProjects() {
         String information = "";
         for (int i = 0; i <  grupo.getProjects().size(); i++) {
-            information += "Project N°" + (i + 1) + " \n " + grupo.getProjects().get(i).toString() + "\n";
+            information += "Project N°" + (i + 1) + " \n" + grupo.getProjects().get(i).toString();
         }
         return information;
     }
-
     
-
 
     // Groups
     public ArrayList<Grupo> getListaGrupos() {
@@ -173,16 +172,7 @@ public class GroupController {
         return resultado.toString();
     }
 
- 
-   
 
-    
+
 
 }
-
-
-
-
-
-
-
