@@ -305,14 +305,9 @@ public class Test {
                             System.out.println("invalid option");
                             break;
                     }
-
-                    
                 break;
                 case 5:
                 break;
-
-
-
                 default:
                  System.out.println("invalid option");
                     break;
