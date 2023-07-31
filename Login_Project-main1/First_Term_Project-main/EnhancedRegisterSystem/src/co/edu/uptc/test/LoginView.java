@@ -1417,6 +1417,7 @@ public class LoginView {
      * This method shows the basic options for people who do not have special permissions
      */
     public  void optionsBasic(){
+        GroupController gc = new GroupController();
         String message = """
                 ========================
                 |\t1.change password\t|
@@ -1433,6 +1434,12 @@ public class LoginView {
                     System.out.println(this.changePassword() ? "password change was successful": "Error");
                 break;
                 case 2:
+                  gc.loadGroups();
+                    if( gc.showInformation().isEmpty() == false){
+                        System.out.println(gc.showInformation());   
+                        } else{
+                            System.out.println("There is no groups created");
+                        } 
                 break;
                 case 3:
                     System.out.println(this.logOut() ? "Logging out" : "Error. Try again");
