@@ -80,7 +80,7 @@ public class LoginView {
             this.optionsDirector();
             return;
         } else if (role.equals("SECRETARY")) {
-            this.optionsSecretary();
+            this.optionsSecretary();;
             return;
         }
 
@@ -789,12 +789,13 @@ public class LoginView {
     }
 
     public void optionsSecretary() {
+       LoginView portal = new LoginView();
         GroupController gc = new GroupController();
         Scanner sc = new Scanner(System.in);
         String faculty = "", name = "", initial = "", email = "", project = "";
         String nameProject = "", descriptionProject = "", aux = "";
         int op = 0, num = 0, Id = 0, state = 0, m = 0, idProject = 0, cont = 0, stateProjectOp = 0;
-        boolean stateProject = false, exceptionControl = false;
+        boolean stateProject = false, exceptionControl = false, x = true;
         String loginMessage = """
                 ========================
                 |\t1.Investigation groups\t|
@@ -849,16 +850,22 @@ public class LoginView {
                                 if (gc.validationId(Id)) {
                                     System.out.println("Error! - The input ID has already been used ");
                                 } else {
-                                    System.out.println("Input faculty of the Investigation group");
-                                    faculty = sc.nextLine();
                                     sc.nextLine();
-                                    System.out.println("Input name of the Investigation group");
-                                    name = sc.nextLine();
-                                    System.out.println("Input initial of the Investigation group");
-                                    initial = sc.next();
+                                    faculty = portal.util.inputString("Input faculty of the Investigation group: ",
+                                            "Invalid Input. Try again");
+                                    name = portal.util.inputString("Input name of the Investigation group: ",
+                                            "Invalid Input. Try again");
+                                    initial = portal.util.inputString("Input initial of the Investigation group: ",
+                                            "Invalid Input. Try again");
                                     System.out.println("Input email of the Investigation group");
                                     email = sc.nextLine();
-                                    sc.nextLine();
+
+                                    while (gc.checkemail(email)) {
+                                        System.out.println("error email invalid");
+                                        System.out.println("Input email of the Investigation group");
+                                        email = sc.nextLine();
+                                    }
+
                                     System.out.println("Input objective of the Investigation group");
 
                                     cont++;
@@ -967,9 +974,9 @@ public class LoginView {
                                                             if (search != -1) {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getFaculty());
-                                                                System.out.println("Input the new faculty");
                                                                 sc.nextLine();
-                                                                fac = sc.nextLine();
+                                                                fac = portal.util.inputString("Input the new faculty: ",
+                                                                        "Invalid Input. Try again");
                                                                 gc.modifyGroup(Id, op2, fac);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -981,9 +988,9 @@ public class LoginView {
                                                             if (search != -1) {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getName());
-                                                                System.out.println("Input the new name");
                                                                 sc.nextLine();
-                                                                nam = sc.nextLine();
+                                                                nam = portal.util.inputString("Input the new name: ",
+                                                                        "Invalid Input. Try again");
                                                                 gc.modifyGroup(Id, op2, nam);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -995,9 +1002,10 @@ public class LoginView {
                                                             if (search != -1) {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getInitial());
-                                                                System.out.println("Input the new acronym");
                                                                 sc.nextLine();
-                                                                init = sc.nextLine();
+                                                                init = portal.util.inputString(
+                                                                        "Input the new acronym: ",
+                                                                        "Invalid Input. Try again");
                                                                 gc.modifyGroup(Id, op2, init);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -1012,6 +1020,12 @@ public class LoginView {
                                                                 System.out.println("Input the new email");
                                                                 sc.nextLine();
                                                                 ema = sc.nextLine();
+                                                                while (gc.checkemail(ema)) {
+                                                                    System.out.println("error email invalid");
+                                                                    System.out.println(
+                                                                            "Input email of the Investigation group");
+                                                                    ema = sc.nextLine();
+                                                                }
                                                                 gc.modifyGroup(Id, op2, ema);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -1040,9 +1054,8 @@ public class LoginView {
 
                                                                 switch (opObject) {
                                                                     case 1:
-                                                                        System.out
-                                                                                .println(
-                                                                                        "Input objective of the Investigation group");
+                                                                        System.out.println(
+                                                                                "Input objective of the Investigation group");
                                                                         cont++;
                                                                         sc.nextLine();
                                                                         gc.getGroupList().get(search)
@@ -1195,7 +1208,7 @@ public class LoginView {
                                                                     System.out.println("Input name of the project");
                                                                     nameProject = sc.nextLine();
                                                                     System.out.println(
-                                                                            "Input state of the project\n1. En curso\n2.Finalizado");
+                                                                            "Input state of the project\n1. In progress\n2.Finalized");
 
                                                                     stateProjectOp = 0;
                                                                     while (stateProjectOp != 1 && stateProjectOp != 2) {
