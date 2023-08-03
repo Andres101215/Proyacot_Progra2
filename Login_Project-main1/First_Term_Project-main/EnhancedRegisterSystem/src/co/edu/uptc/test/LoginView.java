@@ -151,15 +151,16 @@ public class LoginView {
                         System.out.println("Error! - The input ID has already been used ");
                     }else{                    
                         System.out.println("Input faculty of the Investigation group");
-                        faculty = sc.nextLine();
                         sc.nextLine();
+                        faculty = sc.nextLine();
+                        
+
                         System.out.println("Input name of the Investigation group");
                         name = sc.nextLine();
                         System.out.println("Input initial of the Investigation group");
-                        initial = sc.next();
+                        initial = sc.nextLine();
                         System.out.println("Input email of the Investigation group");
                         email = sc.nextLine();
-                        sc.nextLine();
                         System.out.println("Input objective of the Investigation group");
                         
                         cont++;

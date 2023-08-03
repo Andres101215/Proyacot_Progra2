@@ -45,11 +45,13 @@ public class Project {
     @Override
     public String toString() {
         if(state){
-         return "project [idProject=" + idProject + "| name=" + name + "| state=in progress "+"| description="
-                + description + "]";
+         return "------------------------------------------------------------------------------------------"
+         +"\nid  " + idProject + "| name" + name + "| state=in progress "+"| description"
+                + description ;
         }else{
-         return "project [idProject=" + idProject + "| name=" + name + "| state=finalized "+"| description="
-                + description + "]";
+         return  "------------------------------------------------------------------------------------------"
+         +"\nid  " + idProject + " | name " + name + "| state=finalized "+"| description"
+                + description ;
         }
       
     }

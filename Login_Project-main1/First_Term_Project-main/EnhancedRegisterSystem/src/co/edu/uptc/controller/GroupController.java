@@ -212,7 +212,7 @@ public class GroupController {
     public String showIdGroups() {
         String aux = "";
         for (Group group : groupList) {
-            return "-----------------------------------------------------------------------------\n"
+            aux+= "-----------------------------------------------------------------------------\n"
                     + "Id " + group.getId() + "  |  Group: "
                     + group.getName() + "\n";
         }
