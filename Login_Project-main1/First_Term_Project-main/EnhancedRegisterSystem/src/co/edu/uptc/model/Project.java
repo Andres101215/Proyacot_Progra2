@@ -46,12 +46,14 @@ public class Project {
     public String toString() {
         if(state){
          return "------------------------------------------------------------------------------------------"
-         +"\nid  " + idProject + "| name" + name + "| state=in progress "+"| description"
-                + description ;
+         +"\nId:" + idProject + "     |Name:" + name + "       |State:in progress  "+"     |Description: "
+                + description+ "\n------------------------------------------------------------------------------------------"
+          ;
         }else{
          return  "------------------------------------------------------------------------------------------"
-         +"\nid  " + idProject + " | name " + name + "| state=finalized "+"| description"
-                + description ;
+         +"\nId:" + idProject + "      |Name:" + name + "           |State:finalized  "+"       |Description: "
+                + description +"\n------------------------------------------------------------------------------------------"
+          ;
         }
       
     }
