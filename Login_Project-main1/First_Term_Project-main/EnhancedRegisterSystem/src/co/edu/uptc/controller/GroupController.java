@@ -6,7 +6,7 @@ import co.edu.uptc.model.Group;
 import co.edu.uptc.model.Project;
 
 public class GroupController {
-      private Group group;
+    private Group group;
     private Project project;
     private ArrayList<Group> groupList = new ArrayList<>();
     private boolean isLoaded = false;
@@ -212,11 +212,11 @@ public class GroupController {
     public String showIdGroups() {
         String aux = "";
         for (Group group : groupList) {
-            aux+= "-----------------------------------------------------------------------------\n"
+            aux += "-----------------------------------------------------------------------------\n"
                     + "Id " + group.getId() + "  |  Group: "
                     + group.getName() + "\n";
         }
-       
+
         return aux;
     }
 
@@ -226,5 +226,25 @@ public class GroupController {
         }
 
         return false;
+    }
+
+    public boolean checkemail(String email) {
+        String aux = "";
+        for (int i = 0; i < email.length(); i++) {
+            if (String.valueOf(email.charAt(i)).equals("@")) {
+                aux = email.substring(i, i + 12);
+
+                if (aux.length() < 11) {
+                    return true;
+                } else {
+                    if (aux.equals("@uptc.edu.co")) {
+                        return false;
+                    }
+                }
+
+            }
+        }
+
+        return true;
     }
 }
