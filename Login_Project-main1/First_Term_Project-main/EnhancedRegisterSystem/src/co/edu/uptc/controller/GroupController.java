@@ -276,4 +276,32 @@ public class GroupController {
         return x;
     }
 
+    public boolean namevalidation(String name){
+        for (Group group : groupList) {
+            if(group.getName().equals(name)){
+               return true;
+            }
+        }
+    return false;
+    }
+    public boolean namevalidationproject(int id,String nameproject){
+        int aux = searchProject(id);
+
+        for (Project  x: groupList.get(aux).getProjects()) {
+            if(x.getName().equals(nameproject)){
+             return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean initialvalidation(String aux){
+        for (Group group : groupList) {
+            if(group.getInitial().equals(aux)){
+              return true;
+            }
+        }
+      return false;
+    }
+
 }
