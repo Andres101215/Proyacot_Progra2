@@ -129,67 +129,67 @@ public class LoginView {
                             case "2":
                                 gc.loadGroups();
                                 String op6 = "";
-                                System.out.println("Input Id of the Investigation group");
-
-                                while (exceptionControl == false) {
-                                    try {
-                                        Id = sc.nextInt();
-                                        exceptionControl = true;
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("!Error - Invalid Input - Try again");
-                                        sc.nextLine();
-                                    }
-                                }
-                                exceptionControl = false;
-
-                                // validacion Id
-                                if (gc.validationId(Id)) {
-                                    System.out.println("Error! - The input ID has already been used ");
-                                } else {
-                                    sc.nextLine();
+                                Id = gc.assignid();
+                                System.out.println("The id of the new group is:" + Id);
+                                faculty = portal.util.inputString("Input faculty of the Investigation group: ",
+                                        "Invalid Input. Try again");
+                                while (gc.checkNameGroupsize(faculty)) {
+                                    System.out.println("The faculty must have at least 5 letters");
                                     faculty = portal.util.inputString("Input faculty of the Investigation group: ",
                                             "Invalid Input. Try again");
+                                }
+
+                                name = portal.util.inputString("Input name of the Investigation group: ",
+                                        "Invalid Input. Try again");
+                                while (gc.checkNameGroupsize(name)) {
+                                    System.out.println("The name must have at least 5 letters");
                                     name = portal.util.inputString("Input name of the Investigation group: ",
                                             "Invalid Input. Try again");
+                                }
+                                initial = portal.util.inputString("Input initial of the Investigation group: ",
+                                        "Invalid Input. Try again");
+                                while (gc.checkInitialGroupsize(initial)) {
+                                    System.out.println("The initials must have a minimum of 2 letters");
                                     initial = portal.util.inputString("Input initial of the Investigation group: ",
                                             "Invalid Input. Try again");
-                                    System.out.println("Input email of the Investigation group");
-                                    email = sc.nextLine();
-
-                                    while (gc.checkemail(email)) {
-                                        System.out.println("error email invalid");
-                                        System.out.println("Input email of the Investigation group");
-                                        email = sc.nextLine();
-                                    }
-
-                                    System.out.println("Input objective of the Investigation group");
-
-                                    cont++;
-                                    aux = cont + "." + sc.nextLine() + "\n";
-                                    while (!op6.equals("2")) {
-                                        System.out.println("Do you want to add another objective?");
-                                        System.out.println("1.Yes\n2.No");
-
-                                        op6 = this.util.inputString("Selection -----> ", this.errorMessage);
-
-                                        switch (op6) {
-                                            case "1":
-                                                System.out.println("Input objective of the Investigation group");
-                                                sc.nextLine();
-                                                cont++;
-                                                aux += cont + "." + sc.nextLine() + "\n";
-                                                break;
-                                            case "2":
-                                                break;
-
-                                            default:
-                                                break;
-                                        }
-
-                                    }
-
-                                    gc.addGroup(gc.createGroup(Id, faculty, name, initial, email, aux));
                                 }
+
+                                email = portal.util.inputString("Input email of the Investigation group: ",
+                                        "Invalid Input. Try again");
+                                while (gc.checkemail(email)) {
+                                    System.out.println("error email invalid");
+                                    email = portal.util.inputString("Input email of the Investigation group: ",
+                                            "Invalid Input. Try again");
+                                }
+
+                                System.out.println("Input objective of the Investigation group");
+
+                                cont++;
+                                aux = cont + "." + sc.nextLine() + "\n";
+                                while (!op6.equals("2")) {
+                                    System.out.println("Do you want to add another objective?");
+                                    System.out.println("1.Yes\n2.No");
+
+                                    op6 = this.util.inputString("Selection -----> ", this.errorMessage);
+
+                                    switch (op6) {
+                                        case "1":
+                                            System.out.println("Input objective of the Investigation group");
+                                            sc.nextLine();
+                                            cont++;
+                                            aux += cont + "." + sc.nextLine() + "\n";
+                                            break;
+                                        case "2":
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+
+                                }
+
+                                gc.addGroup(gc.createGroup(Id, faculty, name, initial, email, aux));
+
                                 if (gc.showInformation().isEmpty() == false) {
 
                                 } else {
@@ -246,6 +246,13 @@ public class LoginView {
                                                                 sc.nextLine();
                                                                 fac = portal.util.inputString("Input the new faculty: ",
                                                                         "Invalid Input. Try again");
+                                                                while (gc.checkNameGroupsize(fac)) {
+                                                                    System.out.println(
+                                                                            "The faculty must have at least 5 letters");
+                                                                    fac = portal.util.inputString(
+                                                                            "Input faculty of the Investigation group: ",
+                                                                            "Invalid Input. Try again");
+                                                                }
                                                                 gc.modifyGroup(Id, op2, fac);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -260,6 +267,11 @@ public class LoginView {
                                                                 sc.nextLine();
                                                                 nam = portal.util.inputString("Input the new name: ",
                                                                         "Invalid Input. Try again");
+                                                                        while (gc.checkNameGroupsize(nam)) {
+                                                                            System.out.println("The name must have at least 5 letters");
+                                                                            nam = portal.util.inputString("Input name of the Investigation group: ",
+                                                                                    "Invalid Input. Try again");
+                                                                        }
                                                                 gc.modifyGroup(Id, op2, nam);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -275,6 +287,11 @@ public class LoginView {
                                                                 init = portal.util.inputString(
                                                                         "Input the new acronym: ",
                                                                         "Invalid Input. Try again");
+                                                                        while (gc.checkInitialGroupsize(init)) {
+                                                                            System.out.println("The initials must have a minimum of 2 letters");
+                                                                            init = portal.util.inputString("Input initial of the Investigation group: ",
+                                                                                    "Invalid Input. Try again");
+                                                                        }
                                                                 gc.modifyGroup(Id, op2, init);
                                                             } else {
                                                                 System.out.println("the group does not exist");
@@ -301,7 +318,7 @@ public class LoginView {
                                                             }
                                                             break;
                                                         case "5":
-                                                            String opObject ="";
+                                                            String opObject = "";
                                                             search = gc.searchGroup(Id);
                                                             System.out.println(gc.getGroupList().get(search).getGoal());
                                                             while (!opObject.equals("4")) {
@@ -309,7 +326,8 @@ public class LoginView {
                                                                         "Choose any of the following options:");
                                                                 System.out.println(
                                                                         "1.Add objective\n2.Modify objective\n3.remove objective\n4.Return");
-                                                                         opObject = this.util.inputString("Selection -----> ", this.errorMessage);
+                                                                opObject = this.util.inputString("Selection -----> ",
+                                                                        this.errorMessage);
 
                                                                 switch (opObject) {
                                                                     case "1":
@@ -435,67 +453,52 @@ public class LoginView {
 
                                                         switch (op3) {
                                                             case "1":
-                                                                System.out.println("Input Id of the project");
+                                                                idProject = gc.assignidproject();
+                                                                System.out.println(
+                                                                        " The id of the new project is" + idProject);
 
-                                                                while (exceptionControl == false) {
-                                                                    try {
-                                                                        idProject = sc.nextInt();
-                                                                        exceptionControl = true;
-                                                                    } catch (InputMismatchException e) {
-                                                                        System.out.println(
-                                                                                "!Error - Invalid Input - Try again");
-                                                                        sc.nextLine();
-                                                                    }
-                                                                }
-                                                                exceptionControl = false;
+                                                                sc.nextLine();
+                                                                System.out.println("Input name of the project");
+                                                                nameProject = sc.nextLine();
+                                                                System.out.println(
+                                                                        "Input state of the project\n1. In progress\n2.Finalized");
 
-                                                                if (gc.validationId(idProject)) {
-                                                                    System.out.println(
-                                                                            "Error! - The input ID has already been used ");
-                                                                } else {
-                                                                    sc.nextLine();
-                                                                    System.out.println("Input name of the project");
-                                                                    nameProject = sc.nextLine();
-                                                                    System.out.println(
-                                                                            "Input state of the project\n1. In progress\n2.Finalized");
-
-                                                                    stateProjectOp = 0;
-                                                                    while (stateProjectOp != 1 && stateProjectOp != 2) {
-                                                                        while (exceptionControl == false) {
-                                                                            try {
-                                                                                stateProjectOp = sc.nextInt();
-                                                                                exceptionControl = true;
-                                                                            } catch (InputMismatchException e) {
-                                                                                System.out.println(
-                                                                                        "!Error - Invalid Input - Try again");
-                                                                                sc.nextLine();
-                                                                            }
-                                                                        }
-                                                                        exceptionControl = false;
-
-                                                                        switch (stateProjectOp) {
-                                                                            case 1:
-                                                                                stateProject = true;
-                                                                                break;
-                                                                            case 2:
-                                                                                stateProject = false;
-                                                                                break;
-                                                                            default:
-                                                                                System.out.println(
-                                                                                        "Invalid - Select the correct option");
-                                                                                break;
+                                                                stateProjectOp = 0;
+                                                                while (stateProjectOp != 1 && stateProjectOp != 2) {
+                                                                    while (exceptionControl == false) {
+                                                                        try {
+                                                                            stateProjectOp = sc.nextInt();
+                                                                            exceptionControl = true;
+                                                                        } catch (InputMismatchException e) {
+                                                                            System.out.println(
+                                                                                    "!Error - Invalid Input - Try again");
+                                                                            sc.nextLine();
                                                                         }
                                                                     }
-                                                                    sc.nextLine();
-                                                                    System.out.println(
-                                                                            "Input description of the project");
-                                                                    descriptionProject = sc.nextLine();
+                                                                    exceptionControl = false;
 
-                                                                    gc.addProject(Id,
-                                                                            gc.createProject(idProject, nameProject,
-                                                                                    stateProject, descriptionProject));
-
+                                                                    switch (stateProjectOp) {
+                                                                        case 1:
+                                                                            stateProject = true;
+                                                                            break;
+                                                                        case 2:
+                                                                            stateProject = false;
+                                                                            break;
+                                                                        default:
+                                                                            System.out.println(
+                                                                                    "Invalid - Select the correct option");
+                                                                            break;
+                                                                    }
                                                                 }
+                                                                sc.nextLine();
+                                                                System.out.println(
+                                                                        "Input description of the project");
+                                                                descriptionProject = sc.nextLine();
+
+                                                                gc.addProject(Id,
+                                                                        gc.createProject(idProject, nameProject,
+                                                                                stateProject, descriptionProject));
+
                                                                 break;
                                                             case "2":
                                                                 if (gc.showInformationProjects().isEmpty() == false) {
@@ -522,9 +525,9 @@ public class LoginView {
                                                                         System.out.println("2. Description");
                                                                         System.out.println("3. State");
 
-                                                                         op4 = this.util.inputString("Selection -----> ", this.errorMessage);
+                                                                        op4 = this.util.inputString("Selection -----> ",
+                                                                                this.errorMessage);
 
-                                                                        
                                                                         switch (op4) {
                                                                             case "1":
                                                                                 System.out.println("- Input new name");
@@ -585,7 +588,8 @@ public class LoginView {
                                                                                 "Are you sure to delete the project?");
                                                                         System.out.println("1.Yes\n2.No");
 
-                                                                        op4= this.util.inputString("Selection -----> ", this.errorMessage);
+                                                                        op4 = this.util.inputString("Selection -----> ",
+                                                                                this.errorMessage);
 
                                                                         switch (op4) {
                                                                             case "1":
@@ -715,8 +719,7 @@ public class LoginView {
     }
 
     public void optionsSecretary() {
-    
-          
+
     }
 
     public void optionsGeneralsLogin() {

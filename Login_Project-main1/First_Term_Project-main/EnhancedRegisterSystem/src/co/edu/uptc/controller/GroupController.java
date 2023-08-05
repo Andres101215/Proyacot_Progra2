@@ -102,7 +102,7 @@ public class GroupController {
 
     public void loadGroups() {
         if (!isLoaded) {
-            groupList.add(createGroup(1, "Duitama", "Computer Science, Electronics, and Communications Research Group",
+            groupList.add(createGroup(70001, "Duitama", "Computer Science, Electronics, and Communications Research Group",
                     "IFELCOM", "ifelcom.20@gmail.com", ""));
             isLoaded = true;
         }
@@ -247,20 +247,33 @@ public class GroupController {
         return true;
     }
 
-    public boolean checkid(int id, Group group) {
-        for (int i = 0; i < group.getProjects().size(); i++) {
-            if (group.getProjects().get(i).getIdProject() == id) {
-                return true;
-            }
-        }
-
-        return false;
+    public int  assignid (){
+        int x=70000;
+        x+=(groupList.size())+1;      
+        return x;
+    }
+    public int assignidproject(){
+         int x=80000;
+         x+=(groupList.size())+1; 
+         return x;
+    }
+    public boolean checkNameGroupsize(String aux){
+        boolean x;
+        if (aux.length() < 5) {
+            x= true;
+         } else {
+            x=false;
+         }
+        return x;
+    }
+     public boolean checkInitialGroupsize(String aux){
+        boolean x;
+        if (aux.length() < 1) {
+            x= true;
+         } else {
+            x=false;
+         }
+        return x;
     }
 
-    public boolean comprobateoption(String aux){
-     if(aux.substring(0, 1).equals("1" ) || aux.substring(0, 1).equals("2")){
-
-     }      
-        return true;
-    }
 }
