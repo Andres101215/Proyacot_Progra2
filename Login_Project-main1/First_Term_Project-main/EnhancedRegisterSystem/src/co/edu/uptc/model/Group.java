@@ -14,15 +14,14 @@ public class Group {
     public Group() {
     }
     
-    public Group(int id, String faculty, String name, String initial, String email, String goal,
-        ArrayList<Project> projects) {
+    public Group(int id, String faculty, String name, String initial, String email, String goal) {
         Id = id;
         Faculty = faculty;
         Name = name;
         Initial = initial;
         this.email = email;
         this.goal = goal;
-        this.projects = projects;
+        this.projects = new ArrayList<Project>();
     }
 
     public String getFaculty() {

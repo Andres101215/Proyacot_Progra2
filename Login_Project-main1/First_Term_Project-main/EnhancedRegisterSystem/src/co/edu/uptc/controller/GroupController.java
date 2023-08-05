@@ -46,18 +46,18 @@ public class GroupController {
         return -1;
     }
 
-    public boolean modifyProject(int id, int option, String newIn, Boolean state) {
+    public boolean modifyProject(int id, String option, String newIn, Boolean state) {
 
         int aux = searchProject(id);
 
         switch (option) {
-            case 1:
+            case "1":
                 group.getProjects().get(aux).setName(newIn);
                 return true;
-            case 2:
+            case "2":
                 group.getProjects().get(aux).setDescription(newIn);
                 return true;
-            case 3:
+            case "3":
                 group.getProjects().get(aux).setState(state);
                 return true;
             default:
@@ -117,8 +117,7 @@ public class GroupController {
     }
 
     public Group createGroup(int id, String faculty, String name, String initial, String email, String goal) {
-        ArrayList<Project> listProjects = new ArrayList<>();
-        group = new Group(id, faculty, name, initial, email, goal, listProjects);
+        group = new Group(id, faculty, name, initial, email, goal);
         return this.group;
     }
 
@@ -145,22 +144,22 @@ public class GroupController {
         return -1;
     }
 
-    public String modifyGroup(int id, int option, String inf) {
+    public String modifyGroup(int id, String option, String inf) {
 
         int aux = searchGroup(id);
 
         if (aux != -1) {
             switch (option) {
-                case 1:
+                case "1":
                     groupList.get(aux).setFaculty(inf);
                     return inf;
-                case 2:
+                case "2":
                     groupList.get(aux).setName(inf);
                     return inf;
-                case 3:
+                case "3":
                     groupList.get(aux).setInitial(inf);
                     return inf;
-                case 4:
+                case "4":
                     groupList.get(aux).setEmail(inf);
                     return inf;
                 default:
@@ -245,6 +244,23 @@ public class GroupController {
             }
         }
 
+        return true;
+    }
+
+    public boolean checkid(int id, Group group) {
+        for (int i = 0; i < group.getProjects().size(); i++) {
+            if (group.getProjects().get(i).getIdProject() == id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean comprobateoption(String aux){
+     if(aux.substring(0, 1).equals("1" ) || aux.substring(0, 1).equals("2")){
+
+     }      
         return true;
     }
 }
