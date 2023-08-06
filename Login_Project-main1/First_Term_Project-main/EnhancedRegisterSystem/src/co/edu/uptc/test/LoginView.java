@@ -142,11 +142,11 @@ public class LoginView {
 
                                 name = portal.util.inputString("Input name of the Investigation group: ",
                                         "Invalid Input. Try again");
-                                while (gc.checkNameGroupsize(name) || gc.namevalidation(nameProject)) {
+                                while (gc.checkNameGroupsize(name) || gc.namevalidation(name)) {
                                     if (gc.checkNameGroupsize(name)) {
                                         System.out.println("The name must have at least 5 letters");
                                     }
-                                    if (gc.namevalidation(nameProject)) {
+                                    if (gc.namevalidation(name)) {
                                         System.out.println("this group already exists enter another name");
                                     }
 
@@ -256,7 +256,6 @@ public class LoginView {
                                                             if (search != -1) {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getFaculty());
-                                                                sc.nextLine();
                                                                 fac = portal.util.inputString("Input the new faculty: ",
                                                                         "Invalid Input. Try again");
                                                                 while (gc.checkNameGroupsize(fac)) {
@@ -277,21 +276,20 @@ public class LoginView {
                                                             if (search != -1) {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getName());
-                                                                sc.nextLine();
                                                                 nam = portal.util.inputString("Input the new name: ",
                                                                         "Invalid Input. Try again");
-                                                                while (gc.checkNameGroupsize(name)
-                                                                        || gc.namevalidation(nameProject)) {
-                                                                    if (gc.checkNameGroupsize(name)) {
+                                                                while (gc.checkNameGroupsize(nam)
+                                                                        || gc.namevalidation(nam)) {
+                                                                    if (gc.checkNameGroupsize(nam)) {
                                                                         System.out.println(
                                                                                 "The name must have at least 5 letters");
                                                                     }
-                                                                    if (gc.namevalidation(nameProject)) {
+                                                                    if (gc.namevalidation(nam)) {
                                                                         System.out.println(
                                                                                 "this group already exists enter another name");
                                                                     }
 
-                                                                    name = portal.util.inputString(
+                                                                    nam = portal.util.inputString(
                                                                             "Input name of the Investigation group: ",
                                                                             "Invalid Input. Try again");
                                                                 }
@@ -306,23 +304,22 @@ public class LoginView {
                                                             if (search != -1) {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getInitial());
-                                                                sc.nextLine();
                                                                 init = portal.util.inputString(
-                                                                        "Input the new acronym: ",
+                                                                        "Input the new initials: ",
                                                                         "Invalid Input. Try again");
                                                                 while (gc.checkInitialGroupsize(init)
                                                                         || gc.initialvalidation(init)) {
                                                                     if (gc.checkInitialGroupsize(init)) {
                                                                         System.out.println(
-                                                                                "The acronyms must have a minimum of 2 letters");
+                                                                                "The initials must have a minimum of 2 letters");
                                                                     }
                                                                     if (gc.initialvalidation(init)) {
                                                                         System.out.println(
-                                                                                "These acronyms are already used, try another");
+                                                                                "These initials are already used, try another");
                                                                     }
 
                                                                     init = portal.util.inputString(
-                                                                            "Input acronyms of the Investigation group: ",
+                                                                            "Input initials of the Investigation group: ",
                                                                             "Invalid Input. Try again");
                                                                 }
 
@@ -338,13 +335,14 @@ public class LoginView {
                                                                 System.out.println(
                                                                         gc.getGroupList().get(search).getEmail());
                                                                 System.out.println("Input the new email");
-                                                                sc.nextLine();
-                                                                ema = sc.nextLine();
+                                                                ema = portal.util.inputString(
+                                                                        "Input email of the Investigation group: ",
+                                                                        "Invalid Input. Try again");
                                                                 while (gc.checkemail(ema)) {
                                                                     System.out.println("error email invalid");
-                                                                    System.out.println(
-                                                                            "Input email of the Investigation group");
-                                                                    ema = sc.nextLine();
+                                                                    ema= portal.util.inputString(
+                                                                            "Input email of the Investigation group: ",
+                                                                            "Invalid Input. Try again");
                                                                 }
                                                                 gc.modifyGroup(Id, op2, ema);
                                                             } else {
@@ -464,6 +462,7 @@ public class LoginView {
                                                                         break;
 
                                                                     default:
+                                                                    System.out.println("invalid option");
                                                                         break;
                                                                 }
 
@@ -487,27 +486,25 @@ public class LoginView {
 
                                                         switch (op3) {
                                                             case "1":
-                                                                idProject = gc.assignidproject();
+                                                               idProject = gc.assignidproject(Id);
                                                                 System.out.println(
                                                                         " The id of the new project is" + idProject);
                                                                 nameProject = this.util.inputString(
-                                                                        "Input name of the project",
+                                                                        "Input name of the project :",
                                                                         this.errorMessage);
 
                                                                 while (gc.checkNameGroupsize(nameProject)
-                                                                        || gc.namevalidationproject(idProject,
+                                                                        || gc.namevalidationproject(Id,
                                                                                 nameProject)) {
                                                                     if (gc.checkNameGroupsize(nameProject)) {
-                                                                        System.out.println(
-                                                                                "The name must have at least 5 letters");
+                                                                        System.out.println("The name must have at least 5 letters");
                                                                     }
-                                                                    if (gc.namevalidationproject(idProject,
+                                                                    if (gc.namevalidationproject(Id,
                                                                             nameProject)) {
-                                                                        System.out.println(
-                                                                                "this project already exists enter another name");
+                                                                        System.out.println("this project already exists enter another name");
                                                                     }
                                                                     nameProject = this.util.inputString(
-                                                                            "Input name of the project",
+                                                                            "Input name of the project: ",
                                                                             this.errorMessage);
                                                                 }
 
@@ -536,13 +533,13 @@ public class LoginView {
                                                                 }
 
                                                                 descriptionProject = this.util.inputString(
-                                                                        "Input description of the project",
+                                                                        "Input description of the project: ",
                                                                         this.errorMessage);
                                                                 while (gc.checkNameGroupsize(descriptionProject)) {
                                                                     System.out.println(
                                                                             "The description project must have at least 5 letters");
                                                                     descriptionProject = this.util.inputString(
-                                                                            "Input description of the project",
+                                                                            "Input description of the project: ",
                                                                             this.errorMessage);
                                                                 }
 
@@ -555,7 +552,7 @@ public class LoginView {
                                                                 if (gc.showInformationProjects().isEmpty() == false) {
                                                                     System.out.println(gc.showInformationProjects());
 
-                                                                    System.out.println("Input Id of the project");
+                                                                    System.out.println("Input Id of the project: ");
 
                                                                     while (exceptionControl == false) {
                                                                         try {
@@ -584,8 +581,7 @@ public class LoginView {
                                                                                 nameProject = this.util.inputString(
                                                                                         "Input new name ",
                                                                                         this.errorMessage);
-                                                                                while (gc
-                                                                                        .checkNameGroupsize(nameProject)
+                                                                                while (gc.checkNameGroupsize(nameProject)
                                                                                         || gc.namevalidationproject(
                                                                                                 idProject,
                                                                                                 nameProject)) {

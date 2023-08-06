@@ -248,13 +248,14 @@ public class GroupController {
     }
 
     public int  assignid (){
-        int x=70000;
+        int x=1000;
         x+=(groupList.size())+1;      
         return x;
     }
-    public int assignidproject(){
-         int x=80000;
-         x+=(groupList.size())+1; 
+    public int assignidproject(int id){
+         int x=2000;
+          int aux = searchGroup(id);
+         x+=(groupList.get(aux).getProjects().size())+1;
          return x;
     }
     public boolean checkNameGroupsize(String aux){
@@ -285,8 +286,7 @@ public class GroupController {
     return false;
     }
     public boolean namevalidationproject(int id,String nameproject){
-        int aux = searchProject(id);
-
+         int aux = searchGroup(id);
         for (Project  x: groupList.get(aux).getProjects()) {
             if(x.getName().equals(nameproject)){
              return true;
