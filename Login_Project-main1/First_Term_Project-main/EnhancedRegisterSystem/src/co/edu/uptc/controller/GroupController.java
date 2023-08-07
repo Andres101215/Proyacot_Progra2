@@ -10,6 +10,8 @@ public class GroupController {
     private Project project;
     private ArrayList<Group> groupList = new ArrayList<>();
     private boolean isLoaded = false;
+    private int x=1001;
+    private int z=2000;
     
 
     // Projects
@@ -47,19 +49,20 @@ public class GroupController {
         return -1;
     }
 
-    public boolean modifyProject(int id, String option, String newIn, Boolean state) {
+    public boolean modifyProject(int Id,int id, String option, String newIn, Boolean state) {
 
+       int aux1= searchGroup(Id);
         int aux = searchProject(id);
 
         switch (option) {
             case "1":
-                group.getProjects().get(aux).setName(newIn);
+                groupList.get(aux1).getProjects().get(aux).setName(newIn);
                 return true;
             case "2":
-                group.getProjects().get(aux).setDescription(newIn);
+                groupList.get(aux1).getProjects().get(aux).setDescription(newIn);
                 return true;
             case "3":
-                group.getProjects().get(aux).setState(state);
+                groupList.get(aux1).getProjects().get(aux).setState(state);
                 return true;
             default:
                 break;
@@ -67,10 +70,11 @@ public class GroupController {
         return false;
     }
 
-    public String showInformationProjects() {
+    public String showInformationProjects(int idgroup) {
         String information = "";
-        for (int i = 0; i < group.getProjects().size(); i++) {
-            information += "Project N°" + (i + 1) + " \n " + group.getProjects().get(i).toString() + "\n";
+        int g =searchGroup(idgroup);
+        for (int i = 0; i < groupList.get(g).getProjects().size(); i++) {
+            information += "Project N°" + (i + 1) + " \n " +  groupList.get(g).getProjects().get(i).toString() + "\n";
         }
         return information;
     }
@@ -141,7 +145,7 @@ public class GroupController {
 
     public String showObjective(int Id){
         int g;
-        String aux="";
+        String aux="Goals:";
         g=searchGroup(Id);    
         for (int i = 0; i < groupList.get(g).getGoal().size(); i++) {
                 aux+=i+1+""+groupList.get(g).getGoal().get(i)+"\n";
@@ -251,8 +255,9 @@ public class GroupController {
         String aux = "";
         for (int i = 0; i < email.length(); i++) {
             if (String.valueOf(email.charAt(i)).equals("@")) {
-                aux = email.substring(i, i + 12);
-
+                try {
+                aux = email.substring(email.length()-12);
+   
                 if (aux.length() < 11) {
                     return true;
                 } else {
@@ -260,23 +265,23 @@ public class GroupController {
                         return false;
                     }
                 }
+            } catch (StringIndexOutOfBoundsException ex) {
+                return true;
+             }
 
             }
         }
 
         return true;
     }
-
+    
     public int  assignid (){
-        int x=1000;
-        x+=(groupList.size())+1;      
+        x++;      
         return x;
     }
     public int assignidproject(int id){
-         int x=2000;
-          int aux = searchGroup(id);
-         x+=(groupList.get(aux).getProjects().size())+1;
-         return x;
+         z++;
+         return z;
     }
     public boolean checkNameGroupsize(String aux){
         boolean x;
@@ -299,7 +304,7 @@ public class GroupController {
 
     public boolean namevalidation(String name){
         for (Group group : groupList) {
-            if(group.getName().equals(name)){
+            if(group.getName().equalsIgnoreCase(name.trim())){
                return true;
             }
         }
@@ -307,7 +312,7 @@ public class GroupController {
     }
     public boolean emailvalidation(String email){
         for (Group group : groupList) {
-            if(group.getEmail().equals(email)){
+            if(group.getEmail().equalsIgnoreCase(email.trim())){
                return true;
             }
         }
@@ -315,8 +320,9 @@ public class GroupController {
     }
     public boolean namevalidationproject(int id,String nameproject){
          int aux = searchGroup(id);
+
         for (Project  x: groupList.get(aux).getProjects()) {
-            if(x.getName().equals(nameproject)){
+            if(x.getName().equalsIgnoreCase(nameproject.trim())){
              return true;
             }
         }
@@ -325,7 +331,7 @@ public class GroupController {
 
     public boolean initialvalidation(String aux){
         for (Group group : groupList) {
-            if(group.getInitial().equals(aux)){
+            if(group.getInitial().equalsIgnoreCase(aux.trim())){
               return true;
             }
         }

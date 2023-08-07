@@ -108,12 +108,13 @@ public class LoginView {
                 |\t2.logout\t\t\t|
 
                 ========================""";
-        String op10 = "";
+        String op10 = " ";
         while (!op10.equals("2")) {
             System.out.println(loginMessage);
             op10 = this.util.inputString("Selection -----> ", this.errorMessage);
             switch (op10) {
                 case "1":
+                    op = "";
                     while (!op.equals("5")) {
                         System.out.println(
                                 "\n----- Main Menu -----\n1.View groups\n2.Create a group\n3.Modify a group\n4.Delete a group\n5.Exit\n-----");
@@ -121,9 +122,41 @@ public class LoginView {
 
                         switch (op) {
                             case "1":
+                                String opx = "";
+                                int p = 0;
                                 gc.loadGroups();
                                 if (gc.showInformation().isEmpty() == false) {
                                     System.out.println(gc.showInformation());
+                                    System.out.println(
+                                            "Do you want to see the projects of a investigation group?\n1.Yes \n2.No");
+                                    opx = this.util.inputString("Selection -----> ", this.errorMessage);
+                                    switch (opx) {
+                                        case "1":
+                                            p = this.util.inputInt(
+                                                    " Input the ID of the investigation group whose projects you want to see:\n",
+                                                    this.errorMessage);
+                                            if (gc.searchGroup(p) != -1) {
+                                                if (gc.showInformationProjects(p).isBlank() == false) {
+                                                    System.out.println(gc.showInformationProjects(p));
+                                                } else {
+                                                    System.out.println(
+                                                            "This group doesn't have projects");
+                                                }
+
+                                                break;
+                                            } else {
+                                                System.out.println("this id does not exist");
+                                            }
+                                            break;
+                                        case "2":
+
+                                            break;
+
+                                        default:
+                                            System.out.println("invalid option");
+                                            break;
+                                    }
+
                                 } else {
                                     System.out.println("There is no groups created");
                                 }
@@ -507,7 +540,8 @@ public class LoginView {
                                                                         "Input name of the project :",
                                                                         this.errorMessage);
 
-                                                                while (gc.checkNameGroupsize(nameProject)
+                                                
+                                                        while (gc.checkNameGroupsize(nameProject)
                                                                         || gc.namevalidationproject(Id,
                                                                                 nameProject)) {
                                                                     if (gc.checkNameGroupsize(nameProject)) {
@@ -567,8 +601,8 @@ public class LoginView {
 
                                                                 break;
                                                             case "2":
-                                                                if (gc.showInformationProjects().isEmpty() == false) {
-                                                                    System.out.println(gc.showInformationProjects());
+                                                                if (gc.showInformationProjects(Id).isEmpty() == false) {
+                                                                    System.out.println(gc.showInformationProjects(Id));
 
                                                                     System.out.println("Input Id of the project: ");
 
@@ -599,10 +633,9 @@ public class LoginView {
                                                                                 nameProject = this.util.inputString(
                                                                                         "Input new name ",
                                                                                         this.errorMessage);
-                                                                                while (gc
-                                                                                        .checkNameGroupsize(nameProject)
+                                                                                while (gc.checkNameGroupsize(nameProject)
                                                                                         || gc.namevalidationproject(
-                                                                                                idProject,
+                                                                                                Id,
                                                                                                 nameProject)) {
                                                                                     if (gc.checkNameGroupsize(
                                                                                             nameProject)) {
@@ -610,7 +643,7 @@ public class LoginView {
                                                                                                 "The name must have at least 5 letters");
                                                                                     }
                                                                                     if (gc.namevalidationproject(
-                                                                                            idProject, nameProject)) {
+                                                                                            Id, nameProject)) {
                                                                                         System.out.println(
                                                                                                 "this project already exists enter another name");
                                                                                     }
@@ -619,7 +652,7 @@ public class LoginView {
                                                                                             this.errorMessage);
                                                                                 }
 
-                                                                                gc.modifyProject(idProject, op4,
+                                                                                gc.modifyProject(Id,idProject, op4,
                                                                                         nameProject, null);
                                                                                 System.out.println(
                                                                                         "Changed project name successfully");
@@ -639,7 +672,7 @@ public class LoginView {
                                                                                                     this.errorMessage);
                                                                                 }
 
-                                                                                gc.modifyProject(idProject, op4,
+                                                                                gc.modifyProject(Id,idProject, op4,
                                                                                         descriptionProject, null);
                                                                                 System.out.println(
                                                                                         "Changed the project description correctly");
@@ -673,7 +706,7 @@ public class LoginView {
                                                                                     }
                                                                                 }
 
-                                                                                gc.modifyProject(idProject, op4, null,
+                                                                                gc.modifyProject(Id,idProject, op4, null,
                                                                                         stateProject);
                                                                                 System.out.println(
                                                                                         "Changed project status successfully");
@@ -696,22 +729,11 @@ public class LoginView {
                                                                 break;
 
                                                             case "3":
-                                                                if (gc.showInformationProjects().isEmpty() == false) {
-                                                                    System.out.println(gc.showInformationProjects());
-                                                                    System.out.println(
-                                                                            "Enter project ID that you want to be deleted");
-
-                                                                    while (exceptionControl == false) {
-                                                                        try {
-                                                                            idProject = sc.nextInt();
-                                                                            exceptionControl = true;
-                                                                        } catch (InputMismatchException e) {
-                                                                            System.out.println(
-                                                                                    "!Error - Invalid Input - Try again");
-                                                                            sc.nextLine();
-                                                                        }
-                                                                    }
-                                                                    exceptionControl = false;
+                                                                if (gc.showInformationProjects(Id).isEmpty() == false) {
+                                                                    System.out.println(gc.showInformationProjects(Id));
+                                                                    idProject = this.util.inputInt(
+                                                                            "Enter project ID that you want to be deleted: ",
+                                                                            this.errorMessage);
 
                                                                     if (gc.searchProject(idProject) != -1) {
                                                                         System.out.println(
@@ -726,18 +748,20 @@ public class LoginView {
                                                                                 if (gc.removeProject(Id, idProject)) {
                                                                                     System.out.println(
                                                                                             "removed successfully");
-                                                                                } else {
-                                                                                    System.out.println(
-                                                                                            "Error! - removed unsuccessfully");
                                                                                 }
                                                                                 break;
                                                                             case "2":
+                                                                                System.out.println(
+                                                                                        "Error! - removed unsuccessfully");
                                                                                 break;
                                                                             default:
                                                                                 System.out.println("invalid option");
                                                                                 break;
                                                                         }
 
+                                                                    } else {
+                                                                        System.out.println(
+                                                                                "error this id does not exist");
                                                                     }
                                                                 } else {
                                                                     System.out.println(
@@ -746,8 +770,8 @@ public class LoginView {
 
                                                                 break;
                                                             case "4":
-                                                                if (gc.showInformationProjects().isEmpty() == false) {
-                                                                    System.out.println(gc.showInformationProjects());
+                                                                if (gc.showInformationProjects(Id).isBlank() == false) {
+                                                                    System.out.println(gc.showInformationProjects(Id));
                                                                 } else {
                                                                     System.out.println(
                                                                             "This group doesn't have projects");
@@ -788,18 +812,13 @@ public class LoginView {
 
                                 System.out.println(gc.showIdGroups());
 
-                                System.out.println("Enter group ID that you want to be deleted");
-
-                                while (exceptionControl == false) {
-                                    try {
-                                        num = sc.nextInt();
-                                        exceptionControl = true;
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("!Error - Invalid Input - Try again");
-                                        sc.nextLine();
-                                    }
+                                num = this.util.inputInt("Enter group ID that you want to be deleted: ",
+                                        this.errorMessage);
+                                while (gc.searchGroup(num) == -1) {
+                                    System.out.println("Error this id does not exist");
+                                    num = this.util.inputInt("Enter group ID that you want to be deleted: ",
+                                            this.errorMessage);
                                 }
-                                exceptionControl = false;
 
                                 System.out.println("Are you sure to delete the group?");
                                 System.out.println("1.Yes\n2.No");
@@ -810,12 +829,12 @@ public class LoginView {
                                     case "1":
                                         if (gc.deleteGroup(num)) {
                                             System.out.println("removed successfully");
-                                        } else {
-                                            System.out.println("Error! - removed unsuccessfully");
                                         }
 
                                         break;
                                     case "2":
+                                        System.out.println("Error! - removed unsuccessfully");
+
                                         break;
                                     default:
                                         System.out.println("invalid option");
@@ -843,12 +862,7 @@ public class LoginView {
     }
 
     public void optionsSecretary() {
-           gc.loadGroups();
-                    if (gc.showInformation().isEmpty() == false) {
-                        System.out.println(gc.showInformation());
-                    } else {
-                        System.out.println("There is no groups created");
-                    }
+
     }
 
     public void optionsGeneralsLogin() {
@@ -917,7 +931,7 @@ public class LoginView {
      * permissions
      */
     public void optionsBasic() {
-       
+
         String message = """
                 ========================
                 |\t1.change password\t|
