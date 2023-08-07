@@ -8,13 +8,13 @@ public class Group {
     private String Name;
     private String Initial;
     private String email;
-    private String goal;
+    private  ArrayList<String> goal;
     private ArrayList<Project> projects ;
 
     public Group() {
     }
     
-    public Group(int id, String faculty, String name, String initial, String email, String goal) {
+    public Group(int id, String faculty, String name, String initial, String email, ArrayList<String>  goal) {
         Id = id;
         Faculty = faculty;
         Name = name;
@@ -56,11 +56,11 @@ public class Group {
         this.email = email;
     }
 
-    public String getGoal() {
+    public  ArrayList<String> getGoal() {
         return goal;
     }
 
-    public void setGoal(String goal) {
+    public void setGoal( ArrayList<String> goal) {
         this.goal = goal;
     }
 
@@ -80,10 +80,12 @@ public class Group {
         this.projects = projects;
     }
 
-    @Override
+     @Override
     public String toString() {
         return "---------------------------------------------------------------------------------------------\n"
         +"Grupo Id: " + Id + "\nFaculty: " + Faculty + "\nName: " + Name + "\nInitial: " + Initial + "\nEmail: "
-                + email + "\nGoal:\n" + goal;
+                + email ;
     }
+
+   
 }

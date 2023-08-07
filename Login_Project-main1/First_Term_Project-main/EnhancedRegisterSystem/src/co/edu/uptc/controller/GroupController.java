@@ -10,6 +10,7 @@ public class GroupController {
     private Project project;
     private ArrayList<Group> groupList = new ArrayList<>();
     private boolean isLoaded = false;
+    
 
     // Projects
     public void addProject(int groupId, Project p) {
@@ -101,25 +102,81 @@ public class GroupController {
     }
 
     public void loadGroups() {
-        if (!isLoaded) {
-            groupList.add(createGroup(70001, "Duitama", "Computer Science, Electronics, and Communications Research Group",
-                    "IFELCOM", "ifelcom.20@gmail.com", ""));
+        if (!isLoaded) {            
+            groupList.add(createGroup(1, "Duitama", "Computer Science, Electronics, and Communications Research Group",
+                    "IFELCOM", "ifelcom.20@gmail.com", createObjective()));
+                    
             isLoaded = true;
         }
+    }
+
+    public ArrayList<String> createObjective() {
+        ArrayList<String>listGoal=new ArrayList<>();
+        return listGoal;
+                  
+    }
+    public boolean addObjective(int idGroup, String o){
+        int g;
+        g=searchGroup(idGroup);
+        groupList.get(g).getGoal().add(o);
+        return true;
+
+    }
+
+     public boolean removeObjective(int idGroup,  int x){
+        int g;
+        g=searchGroup(idGroup);
+        groupList.get(g).getGoal().remove(x-1);
+        return true;
+
+    }
+
+    public boolean modifyObjective(int idGroup,  int x, String n){
+        int g;
+        g=searchGroup(idGroup);
+        groupList.get(g).getGoal().set(x-1, n);
+        return true;
+
+    }
+
+    public String showObjective(int Id){
+        int g;
+        String aux="";
+        g=searchGroup(Id);    
+        for (int i = 0; i < groupList.get(g).getGoal().size(); i++) {
+                aux+=i+1+""+groupList.get(g).getGoal().get(i)+"\n";
+            
+            
+        }  
+        return aux;
+        
+    }
+     public String showObjective1(int g){
+           String aux="";
+        for (int i = 0; i < groupList.get(g).getGoal().size(); i++) {
+                aux+=i+1+"."+groupList.get(g).getGoal().get(i)+"\n";
+            
+            
+        }  
+        return aux;
+        
     }
 
     public String showInformation() {
         String information = "";
         for (int i = 0; i < groupList.size(); i++) {
-            information += groupList.get(i).toString() + "\n";
+            information += groupList.get(i).toString() + "\n"+showObjective1(i);
         }
         return information;
     }
 
-    public Group createGroup(int id, String faculty, String name, String initial, String email, String goal) {
+    public Group createGroup(int id, String faculty, String name, String initial, String email, ArrayList<String>goal) {
+
         group = new Group(id, faculty, name, initial, email, goal);
         return this.group;
     }
+
+   
 
     public void addGroup(Group g) {
         groupList.add(g);
@@ -170,44 +227,7 @@ public class GroupController {
         return inf;
     }
 
-    public String modifyObjective(String objectives, int objectiveNumber, String newObjective) {
-        String[] lines = objectives.split("\n");
-        StringBuilder result = new StringBuilder();
-
-        for (String line : lines) {
-            int pointIndex = line.indexOf(".");
-            if (pointIndex != -1) {
-                int number = Integer.parseInt(line.substring(0, pointIndex).trim());
-                if (number == objectiveNumber) {
-                    line = number + ". " + newObjective;
-                }
-            }
-            result.append(line).append("\n");
-        }
-
-        return result.toString();
-    }
-
-    public String removeObjectives(String objectives, int objectiveNumberToRemove) {
-        String[] lines = objectives.split("\\n");
-        StringBuilder result = new StringBuilder();
-        int newNumber = 1;
-
-        for (String line : lines) {
-            int pointIndex = line.indexOf(".");
-            if (pointIndex != -1) {
-                int number = Integer.parseInt(line.substring(0, pointIndex).trim());
-                if (number != objectiveNumberToRemove) {
-                    line = newNumber + line.substring(pointIndex);
-                    result.append(line).append("\n");
-                    newNumber++;
-                }
-            }
-        }
-
-        return result.toString();
-    }
-
+  
     public String showIdGroups() {
         String aux = "";
         for (Group group : groupList) {
@@ -269,7 +289,7 @@ public class GroupController {
     }
      public boolean checkInitialGroupsize(String aux){
         boolean x;
-        if (aux.length() < 1) {
+        if (aux.length() < 3) {
             x= true;
          } else {
             x=false;
@@ -280,6 +300,14 @@ public class GroupController {
     public boolean namevalidation(String name){
         for (Group group : groupList) {
             if(group.getName().equals(name)){
+               return true;
+            }
+        }
+    return false;
+    }
+    public boolean emailvalidation(String email){
+        for (Group group : groupList) {
+            if(group.getEmail().equals(email)){
                return true;
             }
         }
@@ -302,6 +330,15 @@ public class GroupController {
             }
         }
       return false;
+    }
+    public boolean validationObjective(int idGroup){
+        int g;
+        g=searchGroup(idGroup);
+        if(groupList.get(g).getGoal().isEmpty()){
+            return true;
+
+        }
+        return false;
     }
 
 }

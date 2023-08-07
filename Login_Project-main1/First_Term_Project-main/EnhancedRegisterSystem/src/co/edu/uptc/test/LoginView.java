@@ -36,7 +36,7 @@ public class LoginView {
     public static void main(String[] args) {
 
         LoginView portal = new LoginView();
-        int decision;
+        String decision;
         String message = """
                 =============================
                 |\t\t\tUPTC\t\t\t|
@@ -46,9 +46,9 @@ public class LoginView {
         String password = "", userName = "";
         do {
             System.out.println(message);
-            decision = portal.util.inputInt("Selection --------> ", "Invalid input. Try again");
+            decision = portal.util.inputString("Selection --------> ", "Invalid input. Try again");
             switch (decision) {
-                case 1:
+                case "1":
                     userName = portal.util.inputString("\tUsername: ", "Invalid Input. Try again");
                     password = portal.util.inputString("\tPassword: ", "Invalid input. Try again");
                     if (portal.loginController.login(userName, password)) {
@@ -57,13 +57,13 @@ public class LoginView {
                         System.out.println("User name or password incorrect");
                     }
                     break;
-                case 2:
+                case "2":
                     System.out.println("Coming out....");
                     break;
                 default:
                     System.out.println("Invalid option. Try again");
             }
-        } while (decision != 2);
+        } while (!decision.equals("2"));
     }
 
     /**
@@ -153,55 +153,65 @@ public class LoginView {
                                     name = portal.util.inputString("Input name of the Investigation group: ",
                                             "Invalid Input. Try again");
                                 }
-                                initial = portal.util.inputString("Input acronyms of the Investigation group: ",
+                                initial = portal.util.inputString("Input initials of the Investigation group: ",
                                         "Invalid Input. Try again");
                                 while (gc.checkInitialGroupsize(initial) || gc.initialvalidation(initial)) {
                                     if (gc.checkInitialGroupsize(initial)) {
-                                        System.out.println("The acronyms must have a minimum of 2 letters");
+                                        System.out.println("The initials must have a minimum of 2 letters");
                                     }
-                                    if (gc.initialvalidation(initial)) {
-                                        System.out.println("These acronyms are already used, try another");
+                                    if (gc
+                                            .initialvalidation(initial)) {
+                                        System.out.println("These initials are already used, try another");
                                     }
 
-                                    initial = portal.util.inputString("Input acronyms of the Investigation group: ",
+                                    initial = portal.util.inputString("Input initials of the Investigation group: ",
                                             "Invalid Input. Try again");
                                 }
 
                                 email = portal.util.inputString("Input email of the Investigation group: ",
                                         "Invalid Input. Try again");
-                                while (gc.checkemail(email)) {
-                                    System.out.println("error email invalid");
+                                while (gc.checkemail(email) || gc.emailvalidation(email)) {
+
+                                    if (gc.checkemail(email)) {
+                                        System.out.println("error email invalid");
+                                    }
+                                    if (gc.emailvalidation(email)) {
+                                        System.out.println("This gmail is already registered try with another");
+                                    }
                                     email = portal.util.inputString("Input email of the Investigation group: ",
                                             "Invalid Input. Try again");
                                 }
 
-                                System.out.println("Input objective of the Investigation group");
-
-                                cont++;
-                                aux = cont + "." + sc.nextLine() + "\n";
+                                aux = portal.util.inputString("Input objective of the Investigation group: ",
+                                        "Invalid Input. Try again");
+                                while (gc.checkNameGroupsize(aux)) {
+                                    System.out.println("The objective must have a minimum of 5 letters");
+                                    aux = portal.util.inputString("Input objective of the Investigation group: ",
+                                            "Invalid Input. Try again");
+                                }
+                                gc.addGroup(gc.createGroup(Id, faculty, name, initial, email,
+                                        gc.createObjective()));
+                                gc.addObjective(Id, aux);
                                 while (!op6.equals("2")) {
-                                    System.out.println("Do you want to add another objective?");
-                                    System.out.println("1.Yes\n2.No");
-
-                                    op6 = this.util.inputString("Selection -----> ", this.errorMessage);
-
+                                    System.out.println("Want to add another objective\n1.Yes\n2.No");
+                                    op6 = sc.next();
                                     switch (op6) {
                                         case "1":
-                                            System.out.println("Input objective of the Investigation group");
-                                            sc.nextLine();
-                                            cont++;
-                                            aux += cont + "." + sc.nextLine() + "\n";
+                                            String aux2 = "";
+                                            aux2 = portal.util.inputString(
+                                                    "Input objective of the Investigation group: ",
+                                                    "Invalid Input. Try again");
+                                            gc.addObjective(Id, aux2);
                                             break;
                                         case "2":
                                             break;
 
                                         default:
+                                            System.out.println("invalid option");
                                             break;
                                     }
-
                                 }
-
-                                gc.addGroup(gc.createGroup(Id, faculty, name, initial, email, aux));
+                                System.out.println("The investigation  group was created correctly");
 
                                 if (gc.showInformation().isEmpty() == false) {
 
@@ -266,6 +276,7 @@ public class LoginView {
                                                                             "Invalid Input. Try again");
                                                                 }
                                                                 gc.modifyGroup(Id, op2, fac);
+                                                                System.out.println("Faculty changed successfully\n");
                                                             } else {
                                                                 System.out.println("the group does not exist");
                                                             }
@@ -294,6 +305,8 @@ public class LoginView {
                                                                             "Invalid Input. Try again");
                                                                 }
                                                                 gc.modifyGroup(Id, op2, nam);
+                                                                System.out.println(
+                                                                        "The name of the investigation group was successfully changed.");
                                                             } else {
                                                                 System.out.println("the group does not exist");
                                                             }
@@ -311,11 +324,11 @@ public class LoginView {
                                                                         || gc.initialvalidation(init)) {
                                                                     if (gc.checkInitialGroupsize(init)) {
                                                                         System.out.println(
-                                                                                "The initials must have a minimum of 2 letters");
+                                                                                "The initials must have a minimum of 2 letters\n");
                                                                     }
                                                                     if (gc.initialvalidation(init)) {
                                                                         System.out.println(
-                                                                                "These initials are already used, try another");
+                                                                                "These initials are already used, try another\n");
                                                                     }
 
                                                                     init = portal.util.inputString(
@@ -324,8 +337,10 @@ public class LoginView {
                                                                 }
 
                                                                 gc.modifyGroup(Id, op2, init);
+                                                                System.out
+                                                                        .println("Group initials changed correctly\n");
                                                             } else {
-                                                                System.out.println("the group does not exist");
+                                                                System.out.println("the group does not exist\n");
                                                             }
                                                             break;
                                                         case "4":
@@ -338,13 +353,23 @@ public class LoginView {
                                                                 ema = portal.util.inputString(
                                                                         "Input email of the Investigation group: ",
                                                                         "Invalid Input. Try again");
-                                                                while (gc.checkemail(ema)) {
-                                                                    System.out.println("error email invalid");
+                                                                while (gc.checkemail(ema)
+                                                                        || gc.emailvalidation(ema)) {
+
+                                                                    if (gc.checkemail(ema)) {
+                                                                        System.out.println("error email invalid");
+                                                                    }
+                                                                    if (gc.emailvalidation(ema)) {
+                                                                        System.out.println(
+                                                                                "This gmail is already registered try with another");
+                                                                    }
                                                                     ema= portal.util.inputString(
                                                                             "Input email of the Investigation group: ",
                                                                             "Invalid Input. Try again");
                                                                 }
                                                                 gc.modifyGroup(Id, op2, ema);
+                                                                System.out.println(
+                                                                        "The email of the group was modified correctly");
                                                             } else {
                                                                 System.out.println("the group does not exist");
                                                             }
@@ -352,7 +377,7 @@ public class LoginView {
                                                         case "5":
                                                             String opObject = "";
                                                             search = gc.searchGroup(Id);
-                                                            System.out.println(gc.getGroupList().get(search).getGoal());
+                                                            System.out.println(gc.showObjective(Id));
                                                             while (!opObject.equals("4")) {
                                                                 System.out.println(
                                                                         "Choose any of the following options:");
@@ -360,114 +385,101 @@ public class LoginView {
                                                                         "1.Add objective\n2.Modify objective\n3.remove objective\n4.Return");
                                                                 opObject = this.util.inputString("Selection -----> ",
                                                                         this.errorMessage);
-
                                                                 switch (opObject) {
                                                                     case "1":
-                                                                        System.out.println(
-                                                                                "Input objective of the Investigation group");
-                                                                        cont++;
-                                                                        sc.nextLine();
-                                                                        gc.getGroupList().get(search)
-                                                                                .setGoal(aux += cont + "."
-                                                                                        + sc.nextLine() + "\n");
+                                                                        aux = portal.util.inputString(
+                                                                                "Input the new objective you want to add: ",
+                                                                                "Invalid Input. Try again");
+                                                                        while (gc.checkNameGroupsize(aux)) {
+                                                                            System.out.println(
+                                                                                    "The objective must have a minimum of 5 letters");
+                                                                            aux = portal.util.inputString(
+                                                                                    "Input objective of the Investigation group: ",
+                                                                                    "Invalid Input. Try again");
+                                                                        }
 
-                                                                        System.out.println(
-                                                                                "It has been added successfully");
+                                                                        gc.addObjective(Id, aux);
+                                                                        System.out.println("Target added successfully");
 
                                                                         break;
+
                                                                     case "2":
+                                                                        if (gc.validationObjective(Id)) {
+                                                                            System.out.println(
+                                                                                    "This group has no objectives created");
+                                                                        } else {
+                                                                            int no = portal.util.inputInt(
+                                                                                    "Input the objective number you want to modify: ",
+                                                                                    "Invalid Input. Try again");
+                                                                            if (no >= 1 && no <= gc.getGroupList()
+                                                                                    .get(Id).getGoal().size()) {
+                                                                                aux = portal.util.inputString(
+                                                                                        "Input the new objective: ",
+                                                                                        "Invalid Input. Try again");
+                                                                                while (gc.checkNameGroupsize(aux)) {
+                                                                                    System.out.println(
+                                                                                            "The objective must have a minimum of 5 letters");
+                                                                                    aux = portal.util.inputString(
+                                                                                            "Input objective of the Investigation group: ",
+                                                                                            "Invalid Input. Try again");
+                                                                                }
 
-                                                                        System.out
-                                                                                .println("Current goals of the group:");
-                                                                        System.out.println(gc.getGroupList().get(search)
-                                                                                .getGoal());
-
-                                                                        // Solicitar al usuario el número del objetivo
-                                                                        // que desea
-                                                                        // modificar
-                                                                        System.out.println(
-                                                                                "Input the number of the objective you want to modify:");
-                                                                        int numeroObjetivo = 0;
-                                                                        while (exceptionControl == false) {
-                                                                            try {
-                                                                                numeroObjetivo = sc.nextInt();
-                                                                                exceptionControl = true;
-                                                                            } catch (InputMismatchException e) {
+                                                                                gc.modifyObjective(Id, no, aux);
                                                                                 System.out.println(
-                                                                                        "!Error - Invalid Input - Try again");
-                                                                                sc.nextLine();
+                                                                                        "Target was successfully modified");
+                                                                            } else {
+                                                                                System.out
+                                                                                        .println("invalid objective.");
                                                                             }
+
                                                                         }
-                                                                        exceptionControl = false;
-                                                                        sc.nextLine();
-
-                                                                        // Solicitar al usuario el nuevo texto del
-                                                                        // objetivo
-                                                                        System.out.println(
-                                                                                "Input the new text of objective:");
-                                                                        String nuevoTexto = sc.nextLine();
-
-                                                                        // Modificar el objetivo con el nuevo texto
-                                                                        String objetivosActuales = gc.getGroupList()
-                                                                                .get(search).getGoal();
-                                                                        String objetivosModificados = gc
-                                                                                .modifyObjective(objetivosActuales,
-                                                                                        numeroObjetivo, nuevoTexto);
-
-                                                                        // Actualizar la lista de objetivos del grupo
-                                                                        // con los
-                                                                        // objetivos modificados
-                                                                        gc.getGroupList().get(search)
-                                                                                .setGoal(objetivosModificados);
-
                                                                         break;
+
                                                                     case "3":
-                                                                        // Display the current goals of the group
-                                                                        System.out
-                                                                                .println("Current goals of the group:");
-                                                                        System.out.println(gc.getGroupList().get(search)
-                                                                                .getGoal());
+                                                                        String d = "";
+                                                                        int n = 0;
+                                                                        if (gc.validationObjective(Id)) {
+                                                                            System.out.println(
+                                                                                    "This group has no objective created");
+                                                                        } else {
 
-                                                                        // Request the user to input the number of the
-                                                                        // objective they
-                                                                        // want to delete
-                                                                        System.out.println(
-                                                                                "Input the number of the objective you want to delete:");
-                                                                        int objectiveNumberToDelete = 0;
-                                                                        while (exceptionControl == false) {
-                                                                            try {
-                                                                                objectiveNumberToDelete = sc.nextInt();
-                                                                                exceptionControl = true;
-                                                                            } catch (InputMismatchException e) {
+                                                                            System.out.println(
+                                                                                    "Input the objective number you want to delete");
+                                                                            n = sc.nextInt();
+                                                                            if (n >= 1 && n <= gc.getGroupList().get(Id)
+                                                                                    .getGoal().size()) {
                                                                                 System.out.println(
-                                                                                        "!Error - Invalid Input - Try again");
-                                                                                sc.nextLine();
+                                                                                        "Are you sure to delete the project?\n1.Yes\n2.No");
+                                                                                d = this.util.inputString(
+                                                                                        "Selection -----> ",
+                                                                                        this.errorMessage);
+                                                                                switch (d) {
+                                                                                    case "1":
+                                                                                        gc.removeObjective(Id, n);
+                                                                                        System.out.println(
+                                                                                                "remove succesfully");
+                                                                                        break;
+                                                                                    case "2":
+                                                                                        break;
+
+                                                                                    default:
+                                                                                        System.out
+                                                                                                .println(
+                                                                                                        "Invalid option");
+                                                                                        break;
+                                                                                }
+                                                                            } else {
+                                                                                System.out
+                                                                                        .println("invalid objective.");
                                                                             }
+                                                                            break;
                                                                         }
-                                                                        exceptionControl = false;
-                                                                        sc.nextLine();
-
-                                                                        // Delete the objective with the provided number
-                                                                        String currentGoalsToDelete = gc.getGroupList()
-                                                                                .get(search).getGoal();
-                                                                        String modifiedGoalsAfterDeletion = gc
-                                                                                .removeObjectives(currentGoalsToDelete,
-                                                                                        objectiveNumberToDelete);
-
-                                                                        // Update the group's list of objectives with
-                                                                        // the modified goals
-                                                                        gc.getGroupList().get(search)
-                                                                                .setGoal(modifiedGoalsAfterDeletion);
-
-                                                                        break;
 
                                                                     default:
-                                                                    System.out.println("invalid option");
+                                                                        System.out.println("invalid option");
                                                                         break;
                                                                 }
-
                                                             }
-
                                                             break;
 
                                                         default:
@@ -478,6 +490,7 @@ public class LoginView {
 
                                                 // Case 2 - Modificar proyectos
                                                 case "2":
+                                                    op3 = "";
                                                     while (!op3.equals("5")) {
                                                         System.out.println(
                                                                 "\n----- Projects -----\n1.Create new project\n2.Modify existing project\n3.Delete project\n4.Show projects\n5.Return\n-----");
@@ -486,7 +499,7 @@ public class LoginView {
 
                                                         switch (op3) {
                                                             case "1":
-                                                               idProject = gc.assignidproject(Id);
+                                                                idProject = gc.assignidproject(Id);
                                                                 System.out.println(
                                                                         " The id of the new project is" + idProject);
                                                                 nameProject = this.util.inputString(
@@ -497,11 +510,13 @@ public class LoginView {
                                                                         || gc.namevalidationproject(Id,
                                                                                 nameProject)) {
                                                                     if (gc.checkNameGroupsize(nameProject)) {
-                                                                        System.out.println("The name must have at least 5 letters");
+                                                                        System.out.println(
+                                                                                "The name must have at least 5 letters");
                                                                     }
                                                                     if (gc.namevalidationproject(Id,
                                                                             nameProject)) {
-                                                                        System.out.println("this project already exists enter another name");
+                                                                        System.out.println(
+                                                                                "this project already exists enter another name");
                                                                     }
                                                                     nameProject = this.util.inputString(
                                                                             "Input name of the project: ",
@@ -546,6 +561,8 @@ public class LoginView {
                                                                 gc.addProject(Id,
                                                                         gc.createProject(idProject, nameProject,
                                                                                 stateProject, descriptionProject));
+                                                                System.out.println(
+                                                                        "The project was created successfully");
 
                                                                 break;
                                                             case "2":
@@ -581,7 +598,8 @@ public class LoginView {
                                                                                 nameProject = this.util.inputString(
                                                                                         "Input new name ",
                                                                                         this.errorMessage);
-                                                                                while (gc.checkNameGroupsize(nameProject)
+                                                                                while (gc
+                                                                                        .checkNameGroupsize(nameProject)
                                                                                         || gc.namevalidationproject(
                                                                                                 idProject,
                                                                                                 nameProject)) {
@@ -602,6 +620,8 @@ public class LoginView {
 
                                                                                 gc.modifyProject(idProject, op4,
                                                                                         nameProject, null);
+                                                                                System.out.println(
+                                                                                        "Changed project name successfully");
                                                                                 break;
                                                                             case "2":
                                                                                 descriptionProject = this.util
@@ -620,6 +640,8 @@ public class LoginView {
 
                                                                                 gc.modifyProject(idProject, op4,
                                                                                         descriptionProject, null);
+                                                                                System.out.println(
+                                                                                        "Changed the project description correctly");
                                                                                 break;
                                                                             case "3":
                                                                                 System.out
@@ -652,6 +674,8 @@ public class LoginView {
 
                                                                                 gc.modifyProject(idProject, op4, null,
                                                                                         stateProject);
+                                                                                System.out.println(
+                                                                                        "Changed project status successfully");
                                                                                 break;
                                                                             default:
                                                                                 System.out.println(
