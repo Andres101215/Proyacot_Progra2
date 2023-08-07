@@ -22,6 +22,7 @@ public class LoginView {
     private final LoginController loginController;
     private final String[] roles;
     private final String errorMessage;
+    private GroupController gc = new GroupController();
 
     public LoginView() {
         this.util = new InputLibrary();
@@ -94,7 +95,6 @@ public class LoginView {
      */
     public void optionsDirector() {
         LoginView portal = new LoginView();
-        GroupController gc = new GroupController();
         Scanner sc = new Scanner(System.in);
         String faculty = "", name = "", initial = "", email = "", project = "";
         String nameProject = "", descriptionProject = "", aux = "";
@@ -106,6 +106,7 @@ public class LoginView {
                 ========================
                 |\t1.Investigation groups\t|
                 |\t2.logout\t\t\t|
+
                 ========================""";
         String op10 = "";
         while (!op10.equals("2")) {
@@ -363,7 +364,7 @@ public class LoginView {
                                                                         System.out.println(
                                                                                 "This gmail is already registered try with another");
                                                                     }
-                                                                    ema= portal.util.inputString(
+                                                                    ema = portal.util.inputString(
                                                                             "Input email of the Investigation group: ",
                                                                             "Invalid Input. Try again");
                                                                 }
@@ -842,7 +843,12 @@ public class LoginView {
     }
 
     public void optionsSecretary() {
-
+           gc.loadGroups();
+                    if (gc.showInformation().isEmpty() == false) {
+                        System.out.println(gc.showInformation());
+                    } else {
+                        System.out.println("There is no groups created");
+                    }
     }
 
     public void optionsGeneralsLogin() {
@@ -911,7 +917,7 @@ public class LoginView {
      * permissions
      */
     public void optionsBasic() {
-        GroupController gc = new GroupController();
+       
         String message = """
                 ========================
                 |\t1.change password\t|
@@ -919,15 +925,15 @@ public class LoginView {
                 |\t3.logout\t\t\t|
                 ========================""";
 
-        int decision = 0;
-        do {
+        String decision = "";
+        while (!decision.equals("3")) {
             System.out.println(message);
-            decision = this.util.inputInt("Selection -----> ", this.errorMessage);
+            decision = this.util.inputString("Selection -----> ", this.errorMessage);
             switch (decision) {
-                case 1:
+                case "1":
                     System.out.println(this.changePassword() ? "password change was successful" : "Error");
                     break;
-                case 2:
+                case "2":
                     gc.loadGroups();
                     if (gc.showInformation().isEmpty() == false) {
                         System.out.println(gc.showInformation());
@@ -935,7 +941,7 @@ public class LoginView {
                         System.out.println("There is no groups created");
                     }
                     break;
-                case 3:
+                case "3":
                     System.out.println(this.logOut() ? "Logging out" : "Error. Try again");
                     break;
                 default:
@@ -943,6 +949,6 @@ public class LoginView {
                     break;
             }
 
-        } while (decision != 2);
+        }
     }
 }

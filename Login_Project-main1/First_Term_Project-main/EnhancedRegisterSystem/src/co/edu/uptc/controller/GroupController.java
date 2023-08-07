@@ -103,7 +103,7 @@ public class GroupController {
 
     public void loadGroups() {
         if (!isLoaded) {            
-            groupList.add(createGroup(1, "Duitama", "Computer Science, Electronics, and Communications Research Group",
+            groupList.add(createGroup(1001, "Duitama", "Computer Science, Electronics, and Communications Research Group",
                     "IFELCOM", "ifelcom.20@gmail.com", createObjective()));
                     
             isLoaded = true;
@@ -289,7 +289,7 @@ public class GroupController {
     }
      public boolean checkInitialGroupsize(String aux){
         boolean x;
-        if (aux.length() < 3) {
+        if (aux.length() < 2) {
             x= true;
          } else {
             x=false;

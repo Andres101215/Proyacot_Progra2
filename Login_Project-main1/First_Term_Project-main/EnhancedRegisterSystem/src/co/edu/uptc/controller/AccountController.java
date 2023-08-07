@@ -21,7 +21,7 @@ public class AccountController {
     private String username = "";
     private String password = "";
     private final Account[] defaultAccounts = {
-        new Account("202210568", "manuel.martinez", "Masfx83", Roles.STUDENT.name(), "manuel.martinez@uptc.edu.co"),
+        new Account("202210568", "angelica.morales", "12345", Roles.STUDENT.name(), "manuel.martinez@uptc.edu.co"),
         new Account("2021456","maria.rodriguez","AJsv92",Roles.STUDENT.name(), "maria.rodriguez@uptc.edu.co"),
         new Account("2020154", "juan.velandia","njksAPO293",Roles.STUDENT.name(), "juan.velandia@uptc.edu.co"),
         new Account("2022159", "maria.rodriguez01","HJAkjsf234",Roles.STUDENT.name(), "maria.rodriguez01@uptc.edu.co"),
