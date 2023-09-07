@@ -28,7 +28,7 @@ public class AccountController {
         new Account("46389778", "johana.torres","JKJfsdhf334",Roles.PROFESSOR.name(), "johana.torres@uptc.edu.co"),
         new Account("10953483","ivan.mendoza","HJ23jkil",Roles.PROFESSOR.name(), "ivan.mendoza@uptc.edu.co"),
         new Account("47865421","laura.castillo","jaklsBJ832",Roles.ADMINISTRATOR.name(), "laura.castillo@uptc.edu.co"),
-        new Account("10953483","andres.puentes","123456789",Roles.DIRECTOR.name(), "ivan.mendoza@uptc.edu.co"),
+        new Account("10953483","andres.puentes","12345",Roles.DIRECTOR.name(), "ivan.mendoza@uptc.edu.co"),
         new Account("47865421","laura.uruena","123456789",Roles.SECRETARY.name(), "laura.castillo@uptc.edu.co")
     };
 
@@ -181,6 +181,14 @@ public class AccountController {
         }
 
         return passwords;
+    }
+    public boolean validateId(String id){
+        for (Account account : accounts) {
+            if(account.getId().equals(id)){
+               return false;
+            }
+        }
+        return true;
     }
 
 

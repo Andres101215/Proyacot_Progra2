@@ -3,6 +3,7 @@ package co.edu.uptc.controller;
 import java.util.ArrayList;
 
 import co.edu.uptc.model.Group;
+import co.edu.uptc.model.Person;
 import co.edu.uptc.model.Project;
 
 public class GroupController {
@@ -10,9 +11,8 @@ public class GroupController {
     private Project project;
     private ArrayList<Group> groupList = new ArrayList<>();
     private boolean isLoaded = false;
-    private int x=1001;
-    private int z=2000;
-    
+    private int x = 1001;
+    private PersonController pc= new PersonController();
 
     // Projects
     public void addProject(int groupId, Project p) {
@@ -35,8 +35,21 @@ public class GroupController {
     }
 
     public Project createProject(int projectId, String name, boolean state, String description) {
+        ArrayList<Person> members = new ArrayList<>();
         project = new Project(projectId, name, state, description);
+        project.setMmembers(members);
         return this.project;
+    }
+
+    public boolean addProjectmembers(Group g, Person p, int id) {
+        for (Project project : group.getProjects()) {
+            if (project.getIdProject() == id) {
+                project.getMmembers().add(p);
+                return false;
+            }
+
+        }
+        return true;
     }
 
     // Method that returns the position in the list of projects
@@ -49,9 +62,9 @@ public class GroupController {
         return -1;
     }
 
-    public boolean modifyProject(int Id,int id, String option, String newIn, Boolean state) {
+    public boolean modifyProject(int Id, int id, String option, String newIn, Boolean state) {
 
-       int aux1= searchGroup(Id);
+        int aux1 = searchGroup(Id);
         int aux = searchProject(id);
 
         switch (option) {
@@ -72,9 +85,9 @@ public class GroupController {
 
     public String showInformationProjects(int idgroup) {
         String information = "";
-        int g =searchGroup(idgroup);
+        int g = searchGroup(idgroup);
         for (int i = 0; i < groupList.get(g).getProjects().size(); i++) {
-            information += "Project N°" + (i + 1) + " \n " +  groupList.get(g).getProjects().get(i).toString() + "\n";
+            information += "Project N°" + (i + 1) + " \n " + groupList.get(g).getProjects().get(i).toString() + "\n";
         }
         return information;
     }
@@ -106,81 +119,96 @@ public class GroupController {
     }
 
     public void loadGroups() {
-        if (!isLoaded) {            
-            groupList.add(createGroup(1001, "Duitama", "Computer Science, Electronics, and Communications Research Group",
-                    "IFELCOM", "ifelcom.20@gmail.com", createObjective()));
-                    
+        if (!isLoaded) {
+            groupList.add(
+                    createGroup(1001, "Duitama", "Computer Science, Electronics, and Communications Research Group",
+                            "IFELCOM", "ifelcom.20@gmail.com", createObjective()));
+
             isLoaded = true;
         }
     }
 
     public ArrayList<String> createObjective() {
-        ArrayList<String>listGoal=new ArrayList<>();
+        ArrayList<String> listGoal = new ArrayList<>();
         return listGoal;
-                  
+
     }
-    public boolean addObjective(int idGroup, String o){
+
+    public boolean addObjective(int idGroup, String o) {
         int g;
-        g=searchGroup(idGroup);
+        g = searchGroup(idGroup);
         groupList.get(g).getGoal().add(o);
         return true;
 
     }
 
-     public boolean removeObjective(int idGroup,  int x){
+    public boolean removeObjective(int idGroup, int x) {
         int g;
-        g=searchGroup(idGroup);
-        groupList.get(g).getGoal().remove(x-1);
+        g = searchGroup(idGroup);
+        groupList.get(g).getGoal().remove(x - 1);
         return true;
 
     }
 
-    public boolean modifyObjective(int idGroup,  int x, String n){
+    public boolean modifyObjective(int idGroup, int x, String n) {
         int g;
-        g=searchGroup(idGroup);
-        groupList.get(g).getGoal().set(x-1, n);
+        g = searchGroup(idGroup);
+        groupList.get(g).getGoal().set(x - 1, n);
         return true;
 
     }
 
-    public String showObjective(int Id){
+    public String showObjective(int Id) {
         int g;
-        String aux="Goals:";
-        g=searchGroup(Id);    
+        String aux = "Goals:";
+        g = searchGroup(Id);
         for (int i = 0; i < groupList.get(g).getGoal().size(); i++) {
-                aux+=i+1+""+groupList.get(g).getGoal().get(i)+"\n";
-            
-            
-        }  
+            aux += i + 1 + "" + groupList.get(g).getGoal().get(i) + "\n";
+
+        }
         return aux;
-        
+
     }
-     public String showObjective1(int g){
-           String aux="";
+
+    public String showObjective1(int g) {
+        String aux = "Goals:\n";
         for (int i = 0; i < groupList.get(g).getGoal().size(); i++) {
-                aux+=i+1+"."+groupList.get(g).getGoal().get(i)+"\n";
-            
-            
-        }  
+            aux += i + 1 + "." + groupList.get(g).getGoal().get(i) + "\n";
+
+        }
         return aux;
-        
+
     }
 
     public String showInformation() {
         String information = "";
         for (int i = 0; i < groupList.size(); i++) {
-            information += groupList.get(i).toString() + "\n"+showObjective1(i);
+            information += groupList.get(i).toString() + "\n" + showObjective1(i);
         }
         return information;
     }
 
-    public Group createGroup(int id, String faculty, String name, String initial, String email, ArrayList<String>goal) {
-
+    public Group createGroup(int id, String faculty, String name, String initial, String email,ArrayList<String> goal) {
+        ArrayList<Person> members = new ArrayList<Person>();
+        ArrayList<Person> request= new ArrayList<Person>();
+           
         group = new Group(id, faculty, name, initial, email, goal);
-        return this.group;
+        group.setMembers(members);
+        group.setRequest(request);
+        return group;
     }
 
-   
+    public boolean addgroupmembrs(String  id,int idgroup) {
+       if(!pc.findPersonById(id).equals(null)){
+            for (Group group1 : groupList) {
+                if(group1.getId()== idgroup){
+                   group1.getMembers().add(pc.findPersonById(id));
+                   return false;
+                }
+            }
+       }
+        return true;
+    }
 
     public void addGroup(Group g) {
         groupList.add(g);
@@ -231,13 +259,31 @@ public class GroupController {
         return inf;
     }
 
-  
     public String showIdGroups() {
         String aux = "";
         for (Group group : groupList) {
             aux += "-----------------------------------------------------------------------------\n"
                     + "Id " + group.getId() + "  |  Group: "
                     + group.getName() + "\n";
+        }
+
+        return aux;
+    }
+    public String showMembers(int g) {
+        String aux = "Members:\n";
+        for (int i = 0; i < groupList.get(g).getMembers().size(); i++) {
+            aux += i + 1 + "." + groupList.get(g).getMembers().get(i) + "\n";
+        }
+        return aux;
+
+    }
+
+    public String showgroupmembers() {
+        String aux = "";
+        for (int i = 0; i < groupList.size(); i++) {
+            aux += "-----------------------------------------------------------------------------\n"
+                    + "Id " + group.getId() + "  |  Group: "
+                    + group.getName() +"   |  "+ showMembers(i)+"\n";
         }
 
         return aux;
@@ -256,95 +302,132 @@ public class GroupController {
         for (int i = 0; i < email.length(); i++) {
             if (String.valueOf(email.charAt(i)).equals("@")) {
                 try {
-                aux = email.substring(email.length()-12);
-   
-                if (aux.length() < 11) {
-                    return true;
-                } else {
-                    if (aux.equals("@uptc.edu.co")) {
-                        return false;
-                    }
-                }
-            } catch (StringIndexOutOfBoundsException ex) {
-                return true;
-             }
+                    aux = email.substring(email.length() - 12);
 
+                    if (aux.length() < 11) {
+                        return true;
+                    } else {
+                        if (aux.equals("@uptc.edu.co")) {
+                            return false;
+                        }
+                    }
+                } catch (StringIndexOutOfBoundsException ex) {
+                    return true;
+                }
             }
         }
-
         return true;
     }
-    
-    public int  assignid (){
-        x++;      
+
+    public int assignid() {
+        x++;
         return x;
     }
-    public int assignidproject(int id){
-         z++;
-         return z;
+
+    public int assignidproject(int id) {
+        int z = 2000;
+        int p = searchGroup(id);
+        if (groupList.get(p).getProjects().isEmpty()) {
+            z += +1;
+        } else {
+            int y = groupList.get(p).getProjects().size();
+            z += (groupList.get(p).getProjects().get(y - 1).getIdProject()) + 1;
+        }
+
+        return z;
     }
-    public boolean checkNameGroupsize(String aux){
+
+    public boolean checkNameGroupsize(String aux) {
         boolean x;
         if (aux.length() < 5) {
-            x= true;
-         } else {
-            x=false;
-         }
+            x = true;
+        } else {
+            x = false;
+        }
         return x;
     }
-     public boolean checkInitialGroupsize(String aux){
+
+    public boolean checkInitialGroupsize(String aux) {
         boolean x;
         if (aux.length() < 2) {
-            x= true;
-         } else {
-            x=false;
-         }
+            x = true;
+        } else {
+            x = false;
+        }
         return x;
     }
 
-    public boolean namevalidation(String name){
+    public boolean namevalidation(String name) {
         for (Group group : groupList) {
-            if(group.getName().equalsIgnoreCase(name.trim())){
-               return true;
-            }
-        }
-    return false;
-    }
-    public boolean emailvalidation(String email){
-        for (Group group : groupList) {
-            if(group.getEmail().equalsIgnoreCase(email.trim())){
-               return true;
-            }
-        }
-    return false;
-    }
-    public boolean namevalidationproject(int id,String nameproject){
-         int aux = searchGroup(id);
-
-        for (Project  x: groupList.get(aux).getProjects()) {
-            if(x.getName().equalsIgnoreCase(nameproject.trim())){
-             return true;
+            if (group.getName().equalsIgnoreCase(name.trim())) {
+                return true;
             }
         }
         return false;
     }
 
-    public boolean initialvalidation(String aux){
+    public boolean emailvalidation(String email) {
         for (Group group : groupList) {
-            if(group.getInitial().equalsIgnoreCase(aux.trim())){
-              return true;
+            if (group.getEmail().equalsIgnoreCase(email.trim())) {
+                return true;
             }
         }
-      return false;
+        return false;
     }
-    public boolean validationObjective(int idGroup){
+
+    public boolean namevalidationproject(int id, String nameproject) {
+        int aux = searchGroup(id);
+
+        for (Project x : groupList.get(aux).getProjects()) {
+            if (x.getName().equalsIgnoreCase(nameproject.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean initialvalidation(String aux) {
+        for (Group group : groupList) {
+            if (group.getInitial().equalsIgnoreCase(aux.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean validationObjective(int idGroup) {
         int g;
-        g=searchGroup(idGroup);
-        if(groupList.get(g).getGoal().isEmpty()){
+        g = searchGroup(idGroup);
+        if (groupList.get(g).getGoal().isEmpty()) {
             return true;
 
         }
         return false;
+    }
+
+    public boolean comprobatenumber(String con) {
+        int x = 0;
+        for (int i = 0; i < con.length(); i++) {
+            if (String.valueOf(con.charAt(i)).equals("1")
+                    || String.valueOf(con.charAt(i)).equals("2")
+                    || String.valueOf(con.charAt(i)).equals("3")
+                    || String.valueOf(con.charAt(i)).equals("4")
+                    || String.valueOf(con.charAt(i)).equals("5")
+                    || String.valueOf(con.charAt(i)).equals("6")
+                    || String.valueOf(con.charAt(i)).equals("7")
+                    || String.valueOf(con.charAt(i)).equals("8")
+                    || String.valueOf(con.charAt(i)).equals("9")
+                    || String.valueOf(con.charAt(i)).equals("0")) {
+                x++;
+            }
+        }
+
+        if (x == con.length()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

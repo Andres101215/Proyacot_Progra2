@@ -1,10 +1,15 @@
 package co.edu.uptc.model;
 
+import java.util.ArrayList;
+
+import co.edu.uptc.model.persontypes.Student;
+
 public class Project {
     private int idProject;
     private String name;
     private boolean state;
     private String description;
+    private ArrayList<Person> mmembers;
 
     public String getName() {
         return name;
@@ -47,14 +52,21 @@ public class Project {
         if(state){
          return "------------------------------------------------------------------------------------------"
          +"\nId:" + idProject + "     |Name:" + name + "       |State:in progress  "+"     |Description: "
-                + description+ "\n------------------------------------------------------------------------------------------"
+                + description+"         |members:"+ mmembers+"\n------------------------------------------------------------------------------------------"
           ;
         }else{
          return  "------------------------------------------------------------------------------------------"
          +"\nId:" + idProject + "      |Name:" + name + "           |State:finalized  "+"       |Description: "
-                + description +"\n------------------------------------------------------------------------------------------"
+                + description +"         |members:"+ mmembers+"\n------------------------------------------------------------------------------------------"
           ;
         }
       
     }
+    public ArrayList<Person> getMmembers() {
+        return mmembers;
+    }
+    public void setMmembers(ArrayList<Person> mmembers) {
+        this.mmembers = mmembers;
+    }
+   
 }

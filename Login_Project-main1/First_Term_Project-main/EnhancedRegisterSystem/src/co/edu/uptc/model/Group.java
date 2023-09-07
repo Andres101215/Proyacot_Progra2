@@ -10,7 +10,8 @@ public class Group {
     private String email;
     private  ArrayList<String> goal;
     private ArrayList<Project> projects ;
-
+    private ArrayList<Person>members;
+    private ArrayList<Person> request; 
     public Group() {
     }
     
@@ -22,6 +23,14 @@ public class Group {
         this.email = email;
         this.goal = goal;
         this.projects = new ArrayList<Project>();
+    }
+
+    public ArrayList<Person> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<Person> members) {
+        this.members = members;
     }
 
     public String getFaculty() {
@@ -85,6 +94,14 @@ public class Group {
         return "---------------------------------------------------------------------------------------------\n"
         +"Grupo Id: " + Id + "\nFaculty: " + Faculty + "\nName: " + Name + "\nInitial: " + Initial + "\nEmail: "
                 + email ;
+    }
+
+    public ArrayList<Person> getRequest() {
+        return request;
+    }
+
+    public void setRequest(ArrayList<Person> request) {
+        this.request = request;
     }
 
    
